@@ -6,97 +6,262 @@ import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 
 const Constellation = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
-  const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
-    },
-    {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-  ];
+    const slotColumnCommonFields = {
+        minWidth: 140,
+    };
 
-  return (
+    const columns = [
+        { 
+          field: "date",
+          editable: true,
+          headerName: "Cliente",
+          ...slotColumnCommonFields
+        },
+        {
+          field: "days",
+          editable: true,
+          headerName: "Data",
+          flex: 1,
+          minWidth: 150,
+          cellClassName: "name-column--cell",
+        },
+        {
+          field: "unresolvedDefect",
+          editable: true,
+          headerName: "Defeito não resolvido",
+          type: "number",
+          headerAlign: "left",
+          align: "left",
+          cellClassName: "name-column--cell",
+          minWidth: 220,
+        },
+        {
+          field: "oph",
+          editable: true,
+          headerName: "OP/H",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "surgery",
+          editable: true,
+          headerName: "Cirurg",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "arf",
+          editable: true,
+          minWidth: 150,
+          headerName: "Arf",
+          flex: 1,
+        },
+        {
+          field: "arfChange",
+          editable: true,
+          minWidth: 150,
+          headerName: "Troca Arf",
+          flex: 1,
+        },
+        {
+          field: "changeNr",
+          editable: true,
+          minWidth: 150,
+          headerName: "Nr Troca",
+          flex: 1,
+        },
+        {
+            field: "v1",
+            editable: true,
+            minWidth: 130,
+            headerName: "V1",
+            flex: 1,
+        },
+        {
+          field: "v2",
+          editable: true,
+          minWidth: 130,
+          headerName: "V2",
+          flex: 1,
+        },
+        {
+          field: "energy",
+          editable: true,
+          minWidth: 130,
+          headerName: "Energia",
+          flex: 1,
+        },
+        {
+          minWidth: 130,
+          field: "e1g",
+          editable: true,
+          headerName: "E 1G",
+          flex: 1,
+        },
+        {
+          minWidth: 150,
+          field: "e100",
+          editable: true,
+          headerName: "E 100",
+          flex: 1,
+        },
+        {
+          minWidth: 150,
+          field: "e1",
+          editable: true,
+          headerName: "E1",
+          flex: 1,
+        },
+        {
+          minWidth: 150,
+          field: "hom",
+          editable: true,
+          headerName: "Hom",
+          flex: 1,
+        },
+        {
+          field: "mirrow45p1",
+          editable: true,
+          headerName: "45(1)",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "mirrow45p2",
+          editable: true,
+          headerName: "45(2)",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "foco1",
+          editable: true,
+          headerName: "Foco 1",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "foco2",
+          editable: true,
+          headerName: "Foco2",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "e4",
+          editable: true,
+          headerName: "E4",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "Main",
+          editable: true,
+          headerName: "Main",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "Galvos",
+          editable: true,
+          headerName: "galvos",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "Head",
+          editable: true,
+          headerName: "head",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "oc",
+          editable: true,
+          headerName: "OC",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "hr",
+          editable: true,
+          headerName: "HR",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "tecnic",
+          editable: true,
+          headerName: "Tecnico",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "serviceExecuted",
+          editable: true,
+          headerName: "Serviço Executado",
+          minWidth: 150,
+          flex: 1,
+        },
+        {
+          field: "observation",
+          editable: true,
+          headerName: "Observação",
+          minWidth: 150,
+          flex: 1,
+        },
+    ];
+
+    return (
     <Box m="20px">
-      <Header
+    <Header
         title="CONTACTS"
         subtitle="List of Contacts for Future Reference"
-      />
-      <Box
+    />
+    <Box
         m="40px 0 0 0"
         height="75vh"
         sx={{
-          "& .MuiDataGrid-root": {
+        "& .MuiDataGrid-root": {
             border: "none",
-          },
-          "& .MuiDataGrid-cell": {
+        },
+        "& .MuiDataGrid-cell": {
             borderBottom: "none",
-          },
-          "& .name-column--cell": {
+        },
+        "& .name-column--cell": {
             color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
+        },
+        "& .MuiDataGrid-columnHeaders": {
             backgroundColor: colors.blueAccent[700],
             borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
+        },
+        "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
+        },
+        "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
             backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiCheckbox-root": {
+        },
+        "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+        },
+        "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
             color: `${colors.grey[100]} !important`,
-          },
+        },
         }}
-      >
+    >
         <DataGrid
-          rows={mockDataContacts}
-          columns={columns}
+        rows={mockDataContacts}
+        columns={columns}
+        components={{ Toolbar: GridToolbar }}
         />
-      </Box>
     </Box>
-  );
+    </Box>
+    );
 };
+
 
 export default Constellation;

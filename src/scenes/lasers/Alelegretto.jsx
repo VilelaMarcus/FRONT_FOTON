@@ -4,141 +4,24 @@ import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
+import { columnsAllegreto } from "../../data/mockColums";
+import { useReadVisitCustumerByLaserNameQuery } from './custumerVisitMeasurementSlicer'
+import { useGetLaserByNameQuery } from "./laserSlicer";
+import { useEffect } from "react";
 
 const Allegretto = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const data = useReadVisitCustumerByLaserNameQuery('Allegretto');
+  
+  console.log(data);
+  let rows;
 
-  const slotColumnCommonFields = {
-    minWidth: 140,
-  };
+  if(data?.data?.visitMeasurment){
+    rows = Object.values(data?.data?.visitMeasurment);
+  }
 
-  const columns = [
-    { field: "date", headerName: "Cliente", ...slotColumnCommonFields },
-    {
-      field: "days",
-      headerName: "Data",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "unresolvedDefect",
-      headerName: "Defeito não resolvido",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "oph",
-      headerName: "OP/H",
-      flex: 1,
-    },
-    {
-      field: "surgery",
-      headerName: "Cirurg",
-      flex: 1,
-    },
-    {
-      field: "arf",
-      headerName: "Arf",
-      flex: 1,
-    },
-    {
-      field: "arfChange",
-      headerName: "Troca Arf",
-      flex: 1,
-    },
-    {
-      field: "changeNr",
-      headerName: "Nr Troca",
-      flex: 1,
-    },
-    {
-        field: "v1",
-        headerName: "V1",
-        flex: 1,
-    },
-    {
-      field: "v2",
-      headerName: "V2",
-      flex: 1,
-    },
-    {
-      field: "energy",
-      headerName: "Energia",
-      flex: 1,
-    },
-    {
-      field: "e1g",
-      headerName: "E 1G",
-      flex: 1,
-    },
-    {
-      field: "e100",
-      headerName: "E 100",
-      flex: 1,
-    },
-    {
-      field: "e1",
-      headerName: "E1",
-      flex: 1,
-    },
-    {
-      field: "hom",
-      headerName: "Hom",
-      flex: 1,
-    },
-    {
-      field: "mirrow45p1",
-      headerName: "45(1)",
-      flex: 1,
-    },
-    {
-      field: "mirrow45p2",
-      headerName: "45(2)",
-      flex: 1,
-    },
-    {
-      field: "e100",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-    {
-      field: "e100",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-    {
-      field: "e100",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-    {
-      field: "e100",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-    {
-      field: "e100",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-    {
-      field: "e100",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-    {
-      field: "e100",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-    {
-      field: "e100",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-  ];
+  console.log(rows)
 
   return (
     <Box m="20px">
@@ -179,8 +62,8 @@ const Allegretto = () => {
         }}
       >
         <DataGrid
-          rows={mockDataContacts}
-          columns={columns}
+          rows={rows}
+          columns={columnsAllegreto}
           components={{ Toolbar: GridToolbar }}
         />
       </Box>

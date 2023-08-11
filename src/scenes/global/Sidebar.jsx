@@ -8,9 +8,12 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import Filter1OutlinedIcon from '@mui/icons-material/Filter1Outlined';
+import Filter2OutlinedIcon from '@mui/icons-material/Filter2Outlined';
+import Filter3OutlinedIcon from '@mui/icons-material/Filter3Outlined';
+import Filter4OutlinedIcon from '@mui/icons-material/Filter4Outlined';
+import Filter5OutlinedIcon from '@mui/icons-material/Filter5Outlined';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
@@ -140,13 +143,6 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Contacts Information"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
               title="Invoices Balances"
               to="/invoices"
               icon={<ReceiptOutlinedIcon />}
@@ -173,39 +169,39 @@ const Sidebar = () => {
               }}
             >
                <Menu>
-                <SubMenu icon={<PersonOutlinedIcon />} title="Modelos">
+                <SubMenu icon={<RemoveRedEyeOutlinedIcon />} title="Modelos">
                   <Item
                     title="Allegretto"
                     to="/allegretto"
-                    icon={<ReceiptOutlinedIcon />}
+                    icon={<Filter1OutlinedIcon />}
                     selected={selected}
                     setSelected={setSelected}
                   />
                    <Item
                     title="Visx"
                     to="/visx"
-                    icon={<ReceiptOutlinedIcon />}
+                    icon={<Filter2OutlinedIcon />}
                     selected={selected}
                     setSelected={setSelected}
                   />
                    <Item
                     title="Constellation"
                     to="/constellation"
-                    icon={<ReceiptOutlinedIcon />}
+                    icon={<Filter3OutlinedIcon />}
                     selected={selected}
                     setSelected={setSelected}
                   />
                    <Item
-                    title="Invoices Balances"
-                    to="/invoices"
-                    icon={<ReceiptOutlinedIcon />}
+                    title="Intralaser"
+                    to="/intralaser"
+                    icon={<Filter4OutlinedIcon />}
                     selected={selected}
                     setSelected={setSelected}
                   />
                    <Item
-                    title="Invoices Balances"
-                    to="/invoices"
-                    icon={<ReceiptOutlinedIcon />}
+                    title="LaserSigth"
+                    to="/laser-sigth"
+                    icon={<Filter5OutlinedIcon />}
                     selected={selected}
                     setSelected={setSelected}
                   />
@@ -231,13 +227,6 @@ const Sidebar = () => {
               title="Pie Chart"
               to="/pie"
               icon={<PieChartOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Line Chart"
-              to="/line"
-              icon={<TimelineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
