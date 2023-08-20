@@ -4,7 +4,7 @@ const slotColumnCommonFields = {
 
 export const columnsAllegreto = [
     { 
-        field: "custumer",
+        field: "custumer_name",
         editable: true,
         headerName: "Cliente",
         ...slotColumnCommonFields
@@ -18,20 +18,19 @@ export const columnsAllegreto = [
     {
       field: "days",
       editable: true,
-      headerName: "Data",
+      headerName: "Days",
       flex: 1,
-      minWidth: 150,
+      minWidth: 100,
+      background: "red",
       cellClassName: "name-column--cell",
     },
     {
       field: "unresolvedDefect",
       editable: true,
       headerName: "Defeito não resolvido",
-      type: "number",
-      headerAlign: "left",
       align: "left",
       cellClassName: "name-column--cell",
-      minWidth: 220,
+      minWidth: 300,
     },
     {
       field: "oph",
@@ -153,23 +152,23 @@ export const columnsAllegreto = [
       flex: 1,
     },
     {
-      field: "Main",
+      field: "main",
       editable: true,
       headerName: "Main",
       minWidth: 150,
       flex: 1,
     },
     {
-      field: "Galvos",
+      field: "galvos",
       editable: true,
-      headerName: "galvos",
+      headerName: "Galvos",
       minWidth: 150,
       flex: 1,
     },
     {
-      field: "Head",
+      field: "head",
       editable: true,
-      headerName: "head",
+      headerName: "Head",
       minWidth: 150,
       flex: 1,
     },
@@ -195,7 +194,7 @@ export const columnsAllegreto = [
       flex: 1,
     },
     {
-      field: "serviceExecuted",
+      field: "servicePerformed",
       editable: true,
       headerName: "Serviço Executado",
       minWidth: 150,

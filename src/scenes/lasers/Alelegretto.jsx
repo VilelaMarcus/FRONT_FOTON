@@ -1,28 +1,55 @@
 import { Box } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataContacts } from "../../data/mockData";
+import calculateDaysPassedFromDate from '../../utils/dateUltils';
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { columnsAllegreto } from "../../data/mockColums";
-import { useReadVisitCustumerByLaserNameQuery } from './custumerVisitMeasurementSlicer'
+import { useReadVisitCustumerByLaserNameQuery, useUpdateVisitMeasurementMutation, actions } from './custumerVisitMeasurementSlicer'
 import { useGetLaserByNameQuery } from "./laserSlicer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Allegretto = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const data = useReadVisitCustumerByLaserNameQuery('Allegretto');
-  
-  console.log(data);
-  let rows;
+  const [rows, setRows] = useState([]);
+  const dispatch = useDispatch();
+  useReadVisitCustumerByLaserNameQuery('Allegretto');
 
-  if(data?.data?.visitMeasurment){
-    rows = Object.values(data?.data?.visitMeasurment);
+  const visitCustumerList = useSelector(state => state.visitCustomerMeasurement.list);
+
+
+  const [updateVisitMeasurement] = useUpdateVisitMeasurementMutation();
+  let payload= {};
+
+  useEffect(() => {
+    setRows(Object.values(visitCustumerList))
+  },
+  [visitCustumerList])
+
+  const rowsToDisplay = rows.map((measure, index) => {
+    const transformedItem = {};
+
+    for (const key in measure) {
+      transformedItem[key] = measure[key] !== undefined && measure[key] !== null && measure[key] !== '' ? measure[key] : '-';
+    }    
+    transformedItem["days"] = calculateDaysPassedFromDate(measure.date);
+
+    return transformedItem;
+  })
+
+  console.log('render');
+
+  const handleCellChange = (params, e) => {
+    payload = {
+      id: params.id
+    };
+    payload[params.field] = params.value;
+    updateVisitMeasurement(payload);
+    dispatch(actions.updateList(payload))
   }
-
-  console.log(rows)
-
+  
   return (
     <Box m="20px">
       <Header
@@ -35,6 +62,7 @@ const Allegretto = () => {
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
+            fontSize: "16px",
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
@@ -62,8 +90,10 @@ const Allegretto = () => {
         }}
       >
         <DataGrid
-          rows={rows}
+          rows={rowsToDisplay}
           columns={columnsAllegreto}
+          onCellEditCommit={handleCellChange}
+          // onCellEditStop={handleUpdate}
           components={{ Toolbar: GridToolbar }}
         />
       </Box>

@@ -15,10 +15,7 @@ import {
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
-    // [laserSlice]: laserReducer,
     [visitCustumerMeasurementSlice]: visitCustumerMeasurementReducer,
-    // [costumerSlice]: costumerReducer,
-    // [userAuthenticationSlice]: userAuthenticationReducer,
 });
 
 const rootState = rootReducer(undefined, { type: '' });

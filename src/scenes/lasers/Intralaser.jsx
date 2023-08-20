@@ -227,6 +227,7 @@ return (
         sx={{
         "& .MuiDataGrid-root": {
             border: "none",
+            fontSize: "16px",
         },
         "& .MuiDataGrid-cell": {
             borderBottom: "none",
