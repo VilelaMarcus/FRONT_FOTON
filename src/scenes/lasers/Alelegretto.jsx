@@ -17,8 +17,7 @@ const Allegretto = () => {
   const dispatch = useDispatch();
   useReadVisitCustumerByLaserNameQuery('Allegretto');
 
-  const visitCustumerList = useSelector(state => state.visitCustomerMeasurement.list);
-
+  const visitCustumerList = useSelector(state => state.visitCustomerMeasurement.allegretto);
 
   const [updateVisitMeasurement] = useUpdateVisitMeasurementMutation();
   let payload= {};
@@ -28,13 +27,16 @@ const Allegretto = () => {
   },
   [visitCustumerList])
 
+  console.log({rows})
+
   const rowsToDisplay = rows.map((measure, index) => {
     const transformedItem = {};
 
     for (const key in measure) {
       transformedItem[key] = measure[key] !== undefined && measure[key] !== null && measure[key] !== '' ? measure[key] : '-';
     }    
-    transformedItem["days"] = calculateDaysPassedFromDate(measure.date);
+    console.log(measure.date)
+    transformedItem["days"] = calculateDaysPassedFromDate(measure?.date);
 
     return transformedItem;
   })
@@ -43,7 +45,8 @@ const Allegretto = () => {
 
   const handleCellChange = (params, e) => {
     payload = {
-      id: params.id
+      id: params.id,
+      name: 'Allegretto'
     };
     payload[params.field] = params.value;
     updateVisitMeasurement(payload);
@@ -51,7 +54,7 @@ const Allegretto = () => {
   }
   
   return (
-    <Box m="20px">
+    <Box m="20px" position={"relative"}>
       <Header
         title="CONTACTS"
         subtitle="List of Contacts for Future Reference"
@@ -63,6 +66,16 @@ const Allegretto = () => {
           "& .MuiDataGrid-root": {
             border: "none",
             fontSize: "16px",
+          }, 
+            '& .super-app.negative': {
+            backgroundColor: '#FFE66D',
+            color: '#1a3e72',
+            fontWeight: '600',
+          },
+          '& .super-app.positive': {
+            backgroundColor: '#d47483',
+            color: '#1a3e72',
+            fontWeight: '600',
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",

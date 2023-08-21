@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { apiSlice } from '../../redux/api/api-slice';
 
-export const initialState = { list: [] };
+export const initialState = { 
+  allegretto: [],
+  intralaser: [],
+  visx: [],
+  constellation: [],
+  lasersigth: [],
+};
 const slice = 'visitCustomerMeasurement';
 
 export const {
@@ -60,8 +66,22 @@ export const { reducer, actions } = createSlice({
     builder.addMatcher(
       endpoints.readVisitCustumerByLaserName.matchFulfilled,
       (state, { payload }) => {
-        state.list = payload;
-      },
+        const name = payload.name;
+        console.log({payload})
+        switch (name) {
+          case "Allegretto":
+            state.allegretto = payload.visitMeasurement;
+            break;
+          case "Intralaser":
+            state.intralaser = payload.visitMeasurement;
+            break;
+          // Add more cases as needed
+          case "Constellation":
+            state.constellation = payload.visitMeasurement;
+            break;
+          default:
+      }
+    }
     );
   },
 });
