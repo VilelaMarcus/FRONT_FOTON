@@ -59,7 +59,7 @@ export const { reducer, actions } = createSlice({
           case "Allegretto":
             const array = state.allegretto
             console.log({array}) 
-            state.visitCustomerMeasurement.allegretto = state.allegretto.map(e => {
+            state.allegretto = state.allegretto.map(e => {
               if(e.id === payload.id) {
                 const obj = { ...e, [keys[2]]: payload[keys[2]]}         
                 return obj;

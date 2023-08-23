@@ -7,6 +7,7 @@ const slotColumnCommonFields = {
 export const columnsAllegreto = [
     { 
         field: "custumer_name",
+        sortable: false,
         editable: true,
         headerClassName: 'super-app-theme--fixed',
         cellClassName: 'super-app-theme--fixed',
@@ -15,12 +16,14 @@ export const columnsAllegreto = [
     },
     { 
         field: "date",
+        sortable: false,
         editable: true,
         headerName: "Data",
         ...slotColumnCommonFields
     },
     {
       field: "days",
+      sortable: false,
       editable: true,
       headerName: "Days",
       flex: 1,
@@ -39,6 +42,7 @@ export const columnsAllegreto = [
     },
     {
       field: "unresolvedDefect",
+      sortable: false,
       editable: true,
       headerName: "Defeito não resolvido",
       align: "left",
@@ -47,6 +51,7 @@ export const columnsAllegreto = [
     },
     {
       field: "oph",
+      sortable: false,
       editable: true,
       headerName: "OP/H",
       minWidth: 150,
@@ -54,6 +59,7 @@ export const columnsAllegreto = [
     },
     {
       field: "surgery",
+      sortable: false,
       editable: true,
       headerName: "Cirurg",
       minWidth: 150,
@@ -61,6 +67,7 @@ export const columnsAllegreto = [
     },
     {
       field: "arf",
+      sortable: false,
       editable: true,
       minWidth: 150,
       headerName: "Arf",
@@ -68,6 +75,7 @@ export const columnsAllegreto = [
     },
     {
       field: "arfChange",
+      sortable: false,
       editable: true,
       minWidth: 150,
       headerName: "Troca Arf",
@@ -75,6 +83,7 @@ export const columnsAllegreto = [
     },
     {
       field: "changeNr",
+      sortable: false,
       editable: true,
       minWidth: 150,
       headerName: "Nr Troca",
@@ -82,6 +91,7 @@ export const columnsAllegreto = [
     },
     {
         field: "v1",
+        sortable: false,
         editable: true,
         minWidth: 130,
         headerName: "V1",
@@ -89,6 +99,7 @@ export const columnsAllegreto = [
     },
     {
       field: "v2",
+      sortable: false,
       editable: true,
       minWidth: 130,
       headerName: "V2",
@@ -96,6 +107,7 @@ export const columnsAllegreto = [
     },
     {
       field: "energy",
+      sortable: false,
       editable: true,
       minWidth: 130,
       headerName: "Energia",
@@ -104,6 +116,7 @@ export const columnsAllegreto = [
     {
       minWidth: 130,
       field: "e1g",
+      sortable: false,
       editable: true,
       headerName: "E 1G",
       flex: 1,
@@ -111,6 +124,7 @@ export const columnsAllegreto = [
     {
       minWidth: 150,
       field: "e100",
+      sortable: false,
       editable: true,
       headerName: "E 100",
       flex: 1,
@@ -118,6 +132,7 @@ export const columnsAllegreto = [
     {
       minWidth: 150,
       field: "e1",
+      sortable: false,
       editable: true,
       headerName: "E1",
       flex: 1,
@@ -125,12 +140,14 @@ export const columnsAllegreto = [
     {
       minWidth: 150,
       field: "hom",
+      sortable: false,
       editable: true,
       headerName: "Hom",
       flex: 1,
     },
     {
       field: "mirrow45p1",
+      sortable: false,
       editable: true,
       headerName: "45(1)",
       minWidth: 150,
@@ -138,6 +155,7 @@ export const columnsAllegreto = [
     },
     {
       field: "mirrow45p2",
+      sortable: false,
       editable: true,
       headerName: "45(2)",
       minWidth: 150,
@@ -145,6 +163,7 @@ export const columnsAllegreto = [
     },
     {
       field: "foco1",
+      sortable: false,
       editable: true,
       headerName: "Foco 1",
       minWidth: 150,
@@ -152,6 +171,7 @@ export const columnsAllegreto = [
     },
     {
       field: "foco2",
+      sortable: false,
       editable: true,
       headerName: "Foco2",
       minWidth: 150,
@@ -159,6 +179,7 @@ export const columnsAllegreto = [
     },
     {
       field: "e4",
+      sortable: false,
       editable: true,
       headerName: "E4",
       minWidth: 150,
@@ -166,6 +187,7 @@ export const columnsAllegreto = [
     },
     {
       field: "main",
+      sortable: false,
       editable: true,
       headerName: "Main",
       minWidth: 150,
@@ -173,6 +195,7 @@ export const columnsAllegreto = [
     },
     {
       field: "galvos",
+      sortable: false,
       editable: true,
       headerName: "Galvos",
       minWidth: 150,
@@ -180,6 +203,7 @@ export const columnsAllegreto = [
     },
     {
       field: "head",
+      sortable: false,
       editable: true,
       headerName: "Head",
       minWidth: 150,
@@ -187,6 +211,7 @@ export const columnsAllegreto = [
     },
     {
       field: "oc",
+      sortable: false,
       editable: true,
       headerName: "OC",
       minWidth: 150,
@@ -194,6 +219,7 @@ export const columnsAllegreto = [
     },
     {
       field: "hr",
+      sortable: false,
       editable: true,
       headerName: "HR",
       minWidth: 150,
@@ -201,6 +227,7 @@ export const columnsAllegreto = [
     },
     {
       field: "tecnic",
+      sortable: false,
       editable: true,
       headerName: "Tecnico",
       minWidth: 150,
@@ -208,6 +235,7 @@ export const columnsAllegreto = [
     },
     {
       field: "servicePerformed",
+      sortable: false,
       editable: true,
       headerName: "Serviço Executado",      
       minWidth: 350,
@@ -215,6 +243,7 @@ export const columnsAllegreto = [
     },
     {
       field: "observation",
+      sortable: false,
       editable: true,
       headerName: "Observação",
       minWidth: 150,

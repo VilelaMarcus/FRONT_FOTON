@@ -21,6 +21,7 @@ import Intrelaser from "./scenes/lasers/Intralaser";
 import LaserSigth from "./scenes/lasers/LaserSigth";
 import { Provider } from 'react-redux';
 import { useStore } from './redux/store';
+import Custumer from "./scenes/costumes";
 // import Calendar from "./scenes/calendar/calendar";
 
 function App() {
@@ -44,7 +45,7 @@ function App() {
                 <Route path="/constellation" element={<Constellation />} />
                 <Route path="/intralaser" element={<Intrelaser />} />
                 <Route path="/laser-sigth" element={<LaserSigth />} />
-                {/* <Route path="/pie" element={<Pie />} /> */}
+                <Route path="/customer" element={<Custumer />} />
                 {/* <Route path="/line" element={<Line />} /> */}
                 {/* <Route path="/faq" element={<FAQ />} /> */}
                 {/* <Route path="/calendar" element={<Calendar />} /> */}

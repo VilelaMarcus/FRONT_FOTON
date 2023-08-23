@@ -53,8 +53,8 @@ const Constellation = () => {
   return (
     <Box m="20px" position={"relative"}>
       <Header
-        title="CONTACTS"
-        subtitle="List of Contacts for Future Reference"
+        title="Constellation"
+        subtitle="Ultimas visitas"
       />
       <Box
         m="40px 0 0 0"
