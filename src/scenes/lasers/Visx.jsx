@@ -4,9 +4,8 @@ import { tokens } from "../../theme";
 import calculateDaysPassedFromDate from '../../utils/dateUltils';
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
-import { columnsAllegreto, columnsConstellation, columnsVisx } from "../../data/mockColums";
+import { columnsVisx } from "../../data/mockColums";
 import { useReadVisitCustumerByLaserNameQuery, useUpdateVisitMeasurementMutation, actions } from './custumerVisitMeasurementSlicer'
-import { useGetLaserByNameQuery } from "./laserSlicer";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

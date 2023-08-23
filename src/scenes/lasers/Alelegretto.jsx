@@ -27,26 +27,21 @@ const Allegretto = () => {
   },
   [visitCustumerList])
 
-  console.log({rows})
-
   const rowsToDisplay = rows.map((measure, index) => {
     const transformedItem = {};
 
     for (const key in measure) {
       transformedItem[key] = measure[key] !== undefined && measure[key] !== null && measure[key] !== '' ? measure[key] : '-';
     }    
-    console.log(measure.date)
     transformedItem["days"] = calculateDaysPassedFromDate(measure?.date);
 
     return transformedItem;
   })
 
-  console.log('render');
-
   const handleCellChange = (params, e) => {
     payload = {
+      name: 'Allegretto',
       id: params.id,
-      name: 'Allegretto'
     };
     payload[params.field] = params.value;
     updateVisitMeasurement(payload);

@@ -50,16 +50,60 @@ export const { reducer, actions } = createSlice({
       state.list.push(payload);
     },
     updateList: (state, { payload }) => {
+      console.log({payload})
+      console.log({state})
+      console.log('aqui')
+      const name = payload.name;
       const keys = Object.keys(payload);
-      state.list =  state.list.map(e => {
-        if(e.id === payload.id) {
-          const obj = { ...e, [keys[1]]: payload[keys[1]]}         
-          return obj;
-        }
-        else {
-          return e;
-        }
-      });
+        switch (name) {
+          case "Allegretto":
+            const array = state.allegretto
+            console.log({array}) 
+            state.visitCustomerMeasurement.allegretto = state.allegretto.map(e => {
+              if(e.id === payload.id) {
+                const obj = { ...e, [keys[2]]: payload[keys[2]]}         
+                return obj;
+              }
+              else {
+                return e;
+              }
+            });
+            break;
+          case "Intralaser":
+            state.intralaser = state.intralaser.map(e => {
+              if(e.id === payload.id) {
+                const obj = { ...e, [keys[1]]: payload[keys[1]]}         
+                return obj;
+              }
+              else {
+                return e;
+              }
+            });
+            break;
+          case "Constellation":
+            state.constellation = state.constellation.map(e => {
+              if(e.id === payload.id) {
+                const obj = { ...e, [keys[1]]: payload[keys[1]]}         
+                return obj;
+              }
+              else {
+                return e;
+              }
+            });
+            break;
+          case "Visx":
+            state.visx = state.visx.map(e => {
+              if(e.id === payload.id) {
+                const obj = { ...e, [keys[1]]: payload[keys[1]]}         
+                return obj;
+              }
+              else {
+                return e;
+              }
+            });
+          break;
+          default:
+      }
     },
   },
   extraReducers(builder) {
@@ -67,7 +111,6 @@ export const { reducer, actions } = createSlice({
       endpoints.readVisitCustumerByLaserName.matchFulfilled,
       (state, { payload }) => {
         const name = payload.name;
-        console.log({payload})
         switch (name) {
           case "Allegretto":
             state.allegretto = payload.visitMeasurement;
@@ -79,6 +122,9 @@ export const { reducer, actions } = createSlice({
           case "Constellation":
             state.constellation = payload.visitMeasurement;
             break;
+          case "Visx":
+            state.visx = payload.visitMeasurement;
+          break;
           default:
       }
     }
