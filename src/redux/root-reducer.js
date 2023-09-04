@@ -4,10 +4,10 @@ import { apiSlice } from '../redux/api/api-slice';
 //   reducer as appLoadingReducer,
 //   slice as appLoadingSlice,
 // } from 'features/app-loading/app-loading-reducer';
-// import {
-//   reducer as laserReducer,
-//   slice as laserSlice,
-// } from 'features/matches/matches-reducer';
+import {
+  reducer as customerReducer,
+  slice as customerSlice,
+} from '../scenes/customers/customerSlicer';
 import {
   reducer as visitCustumerMeasurementReducer,
   slice as visitCustumerMeasurementSlice,
@@ -15,6 +15,7 @@ import {
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
+    [customerSlice]: customerReducer,
     [visitCustumerMeasurementSlice]: visitCustumerMeasurementReducer,
 });
 

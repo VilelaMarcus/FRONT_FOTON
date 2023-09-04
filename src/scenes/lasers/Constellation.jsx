@@ -6,7 +6,7 @@ import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { columnsAllegreto, columnsConstellation } from "../../data/mockColums";
 import { useReadVisitCustumerByLaserNameQuery, useUpdateVisitMeasurementMutation, actions } from './custumerVisitMeasurementSlicer'
-import { useGetLaserByNameQuery } from "./laserSlicer";
+import { useGetLaserByNameQuery } from "../customers/laserSlicer";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -46,8 +46,8 @@ const Constellation = () => {
       id: params.id
     };
     payload[params.field] = params.value;
-    updateVisitMeasurement(payload);
     dispatch(actions.updateList(payload))
+    updateVisitMeasurement(payload);
   }
   
   return (

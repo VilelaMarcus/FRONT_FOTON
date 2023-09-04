@@ -6,21 +6,31 @@ import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { columnsAllegreto } from "../../data/mockColums";
 import { useReadVisitCustumerByLaserNameQuery, useUpdateVisitMeasurementMutation, actions } from './custumerVisitMeasurementSlicer'
-import { useGetLaserByNameQuery } from "./laserSlicer";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import MenuContext from "./MenuContext";
+
+
+const initialContextMenu = {
+  show: false,
+  customerName: '',
+  y:0,
+}
 
 const Allegretto = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [updateVisitMeasurement] = useUpdateVisitMeasurementMutation();
   const [rows, setRows] = useState([]);
-  const dispatch = useDispatch();
+  const [contextMenu, setContextMenu] = useState(initialContextMenu);
+  
+  let payload= {};
   useReadVisitCustumerByLaserNameQuery('Allegretto');
-
+  
+  
+  const dispatch = useDispatch();
   const visitCustumerList = useSelector(state => state.visitCustomerMeasurement.allegretto);
 
-  const [updateVisitMeasurement] = useUpdateVisitMeasurementMutation();
-  let payload= {};
 
   useEffect(() => {
     setRows(Object.values(visitCustumerList))
@@ -38,6 +48,8 @@ const Allegretto = () => {
     return transformedItem;
   })
 
+  const clientsNames = rows.map(e => e.custumer_name)
+
   const handleCellChange = (params, e) => {
     payload = {
       name: 'Allegretto',
@@ -47,6 +59,27 @@ const Allegretto = () => {
     updateVisitMeasurement(payload);
     dispatch(actions.updateList(payload))
   }
+
+  const onContextMenu = (e) => {
+    e.preventDefault();
+    let target = e.target.innerHTML;
+    const { pageY } = e;
+
+    setContextMenu({
+      show: false,
+    })
+    
+    if(clientsNames.includes(target)) {
+      console.log(target);
+      setContextMenu({
+        show: true,
+        customerName: target,
+        y: pageY,
+      })
+      
+    }
+      
+  };
   
   return (
     <Box m="20px" position={"relative"}>
@@ -96,14 +129,16 @@ const Allegretto = () => {
             color: `${colors.grey[100]} !important`,
           },
         }}
+        onClick={() => setContextMenu({show: false })}
+        onContextMenu={onContextMenu}
       >
         <DataGrid
           rows={rowsToDisplay}
           columns={columnsAllegreto}
           onCellEditCommit={handleCellChange}
-          // onCellEditStop={handleUpdate}
           components={{ Toolbar: GridToolbar }}
         />
+        {contextMenu.show && <MenuContext y={contextMenu.y} customerName={contextMenu.customerName} />}
       </Box>
     </Box>
   );

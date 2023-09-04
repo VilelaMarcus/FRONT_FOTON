@@ -1281,3 +1281,31 @@ export const mockGeographyData = [
     value: 171135,
   },
 ];
+
+export const Lasers = [
+  {
+    id: 'aef8af7d-ae01-4f37-a74f-cabe537f6120',
+    value : "Allegretto",
+    label:  "Allegretto"
+  },
+  {
+    id: '2f632212-a50a-4ecf-9418-49f7baf81565',
+    value : "Constellation",
+    label:  "Constellation"
+  },
+  {
+      id: 'f32be104-59f4-4d92-ae8d-7601a4959441',
+      value : "Intralaser",
+      label:  "Intralaser"
+    },    
+    {
+      id: 'eecff469-0f53-4cc1-86cb-450b87cef08e',
+      value : "Visx",
+      label:  "Visx"
+  },
+  {
+    id: 'bd894e4d-a4ac-477a-a314-58460e8736bb',
+    value : "LaserSigth",
+    label:  "LaserSigth"
+  }
+];

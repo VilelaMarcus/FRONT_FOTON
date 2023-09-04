@@ -21,7 +21,7 @@ import Intrelaser from "./scenes/lasers/Intralaser";
 import LaserSigth from "./scenes/lasers/LaserSigth";
 import { Provider } from 'react-redux';
 import { useStore } from './redux/store';
-import Custumer from "./scenes/costumes";
+import Custumer from "./scenes/customers";
 // import Calendar from "./scenes/calendar/calendar";
 
 function App() {
