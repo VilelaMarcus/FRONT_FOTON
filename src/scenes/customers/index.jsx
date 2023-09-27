@@ -1,14 +1,13 @@
 import { Box } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { Lasers, mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import Select from 'react-select'
-import { useReadCustomerByLaserIdQuery, useReadCustomerVisitMeasurementByCustomerIdQuery } from "./customerSlicer";
+import { useReadCustomerByLaserIdQuery } from "./customerSlicer";
 import { useSelector } from "react-redux";
 import { useLocation } from 'react-router-dom';
+import MetamorfTable from "./metamorfoTable";
 
 const Custumer = (props) => {
 
@@ -19,12 +18,15 @@ const Custumer = (props) => {
   const colors = tokens(theme.palette.mode);
   const [customer, setCustomer] = useState(customerName);
   const [options, setOptions] = useState({});
-  const [rows, setRows] = useState([]);
+  const [customerData, setCustomerData] = useState([]);
   useReadCustomerByLaserIdQuery('');
 
   const customersList = useSelector(state => state.customers.list);
  
+  
+  
   console.log({ customersList })
+  console.log({ customerData })
   
   useEffect(() => {
     const opts = customersList.map((e) => {
@@ -36,67 +38,11 @@ const Custumer = (props) => {
       
     })
     setOptions(opts)
+    const obj = customersList.find(obj => obj.custumer_name === customer);
+    setCustomerData(obj)
   },
-  [customersList])
+  [customersList, customer])
 
-  useEffect(() => {
-    // Your other code here (before the conditional block)
-    
-    if (customersList && customer) {
-      const customerData = customersList.find(obj => obj.custumer_name === customer);
-  
-      if (customerData) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useReadCustomerVisitMeasurementByCustomerIdQuery(customerData.id);
-        console.log({ customerData });
-      } else {
-        console.log("Customer not found.");
-      }
-    }
-  }, [customersList, customer]);
-
-  const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
-    },
-    {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-  ];
 
   const dot = (color = 'transparent') => ({
     alignItems: 'center',
@@ -164,44 +110,7 @@ const Custumer = (props) => {
           <p>Exibindo as ultimas "numero" visitas</p>
         </Box>
       </Box>
-      <Box
-        m="40px 0 0 0"
-        height="50vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${colors.grey[100]} !important`,
-          },
-        }}
-      >
-        <DataGrid
-          rows={mockDataContacts}
-          columns={columns}
-          components={{ Toolbar: GridToolbar }}
-        />
-      </Box>
+      { customerData && <MetamorfTable  customer={customerData}/> }
     </Box>
   );
 };
