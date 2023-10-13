@@ -12,11 +12,25 @@ import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
+import { useReadDashboardInfoQuery } from "./dashboardSlice";
+
+import { useDispatch, useSelector } from "react-redux";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
+  const data = useReadDashboardInfoQuery();
 
+  
+  const {  currentMonthVisitCount, lastMonthVisitCount, newClients, lastVists } = useSelector(state => state.dashboard);
+
+  console.log({data});
+  console.log({lastMonthVisitCount});
+  console.log({currentMonthVisitCount});
+  console.log({lastVists});
+
+  const title = 36;
   return (
     <Box m="20px">
       {/* HEADER */}
@@ -55,7 +69,7 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="36"
+            title={currentMonthVisitCount}
             subtitle="Visitas feitas"
             progress="0.75"
             increase="+14%"
@@ -157,9 +171,9 @@ const Dashboard = () => {
               Ultimas Visitas
             </Typography>
           </Box>
-          {mockTransactions.map((transaction, i) => (
+          {lastVists.map((visit, i) => (
             <Box
-              key={`${transaction.txId}-${i}`}
+              key={`${visit.custumer_name}`}
               display="flex"
               justifyContent="space-between"
               alignItems="center"
@@ -172,19 +186,19 @@ const Dashboard = () => {
                   variant="h5"
                   fontWeight="600"
                 >
-                  {transaction.txId}
+                  {visit.custumer_name}
                 </Typography>
                 <Typography color={colors.grey[100]}>
-                  {transaction.user}
+                  {visit.tecnic}
                 </Typography>
               </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
+              <Box color={colors.grey[100]}>{visit.date}</Box>
               <Box
                 backgroundColor={colors.greenAccent[500]}
                 p="5px 10px"
                 borderRadius="4px"
               >
-                ${transaction.cost}
+                {/* ${transaction.cost} */}
               </Box>
             </Box>
           ))}

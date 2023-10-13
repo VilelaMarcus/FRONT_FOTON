@@ -22,12 +22,7 @@ const Custumer = (props) => {
   useReadCustomerByLaserIdQuery('');
 
   const customersList = useSelector(state => state.customers.list);
- 
-  
-  
-  console.log({ customersList })
-  console.log({ customerData })
-  
+   
   useEffect(() => {
     const opts = customersList.map((e) => {
       const obj ={ 
@@ -80,6 +75,7 @@ const Custumer = (props) => {
     singleValue: (styles, ) => ({ ...styles, ...dot('') }),
   };
 
+  console.log(customerData);
 
   const handleSelect = (e) => {
     const { value } = e;
@@ -110,7 +106,7 @@ const Custumer = (props) => {
           <p>Exibindo as ultimas "numero" visitas</p>
         </Box>
       </Box>
-      { customerData && <MetamorfTable  customer={customerData}/> }
+      { customerData && <MetamorfTable key={customerData.id} customer={customerData}/> }
     </Box>
   );
 };

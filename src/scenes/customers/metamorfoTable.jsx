@@ -1,77 +1,82 @@
 import { Box } from "@mui/system";
 
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { mockDataContacts } from "../../data/mockData";
 import { useTheme } from "@mui/material";
+
+import calculateDaysPassedFromDate from '../../utils/dateUltils';
 
 import { tokens } from "../../theme";
 import {  useReadCustomerVisitMeasurementByCustomerIdQuery } from "./customerSlicer";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
+import { columnsAllegreto, columnsConstellation, columnsVisx, columnsIntralaser, columnsLaserSigth } from '../../data/mockColums.js';
+ 
+
+// const override: CSSProperties = {
+//   display: "block",
+//   position: 'relative',
+//   top: '30%',
+//   left: '2',
+//   margin: "0 auto",
+//   borderColor: "red",
+// };
 
 const MetamorfTable = ({customer}) => {    
     const [laserName, setLaserName] =  useState('');
+    const [columns, setColumns] =  useState([]);
+    const [rows, setRows] = useState([]);
+
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     const { data, isLoading } = useReadCustomerVisitMeasurementByCustomerIdQuery(customer.id);
     
-    console.log({data});
-
-    useEffect(()=>{
-      
-      if(data){
+    useEffect(() => {
+      if (data && data.length >= 1) {
         setLaserName(data[0].laser_name);
+        setRows(Object.values(data))
       }
-    },[data])
-
-    const columns = [
-        { field: "id", headerName: "ID", flex: 0.5 },
-        { field: "registrarId", headerName: "Registrar ID" },
-        {
-          field: "name",
-          headerName: "Name",
-          flex: 1,
-          cellClassName: "name-column--cell",
-        },
-        {
-          field: "age",
-          headerName: "Age",
-          type: "number",
-          headerAlign: "left",
-          align: "left",
-        },
-        {
-          field: "phone",
-          headerName: "Phone Number",
-          flex: 1,
-        },
-        {
-          field: "email",
-          headerName: "Email",
-          flex: 1,
-        },
-        {
-          field: "address",
-          headerName: "Address",
-          flex: 1,
-        },
-        {
-          field: "city",
-          headerName: "City",
-          flex: 1,
-        },
-        {
-          field: "zipCode",
-          headerName: "Zip Code",
-          flex: 1,
-        },
-      ];
+    }, [data]);
     
+    useEffect(() => {
+      
+      switch (laserName) {
+        case 'Allegretto':
+          setColumns(columnsAllegreto);
+          break;
+        case 'visx':
+          setColumns(columnsVisx);
+          break;
+        case 'LaserSight':
+          setColumns(columnsLaserSigth);
+          break;
+        case 'Intralaser':
+          setColumns(columnsIntralaser);
+          break;
+        case 'Constellation':
+          setColumns(columnsConstellation);
+            break;
+        default:
+    }        
+}, [laserName]);
+
+
+  const rowsToDisplay = rows.map((measure, index) => {
+    const transformedItem = {};
+
+    for (const key in measure) {
+      transformedItem[key] = measure[key] !== undefined && measure[key] !== null && measure[key] !== '' ? measure[key] : '-';
+    }    
+    transformedItem["days"] = calculateDaysPassedFromDate(measure?.date);
+
+    return transformedItem;
+  })
+
+  console.log({columns})
+  console.log({rowsToDisplay})
 
     return(
-        <Box
+      <Box
         m="40px 0 0 0"
         height="50vh"
         sx={{
@@ -107,12 +112,13 @@ const MetamorfTable = ({customer}) => {
             loading={isLoading}
             color="white"
             size={120}
+            // cssOverride={override}
             aria-label="Loading Spinner"
             data-testid="loader"
           />
         {!isLoading && 
           <DataGrid
-            rows={mockDataContacts}
+            rows={rowsToDisplay}
             columns={columns}
             components={{ Toolbar: GridToolbar }}
           />
