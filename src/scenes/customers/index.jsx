@@ -100,11 +100,10 @@ const Custumer = (props) => {
       </Box>
       <Box sx={{ display: 'flex',  justifyContent: 'space-between'}}>
         {/* <PanelClient /> */}
-        <Box height="15vh" sx={{}}>
+        {customerData && <Box height="10vh" sx={{}}>
           <h2>{customer}</h2>
-          <p>Dr. Joao</p>
-          <p>Exibindo as ultimas "numero" visitas</p>
-        </Box>
+          <p>Visitas já realizadas</p>
+        </Box>}
       </Box>
       { customerData && <MetamorfTable key={customerData.id} customer={customerData}/> }
     </Box>

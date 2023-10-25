@@ -16,6 +16,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Allegretto from "./scenes/lasers/Alelegretto";
 import Visx from "./scenes/lasers/Visx";
+import { useAuth0 } from "@auth0/auth0-react";
 import Constellation from "./scenes/lasers/Constellation";
 import Intrelaser from "./scenes/lasers/Intralaser";
 import LaserSigth from "./scenes/lasers/LaserSigth";
@@ -28,6 +29,18 @@ function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
   const store = useStore();
+
+  
+  const { user, isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+
+  console.log({isAuthenticated})
+  console.log({isLoading})
+  console.log({user})
+
+  if (!isAuthenticated && !isLoading) {
+    loginWithRedirect();
+  }
+
 
   return (
     <Provider store={store}>

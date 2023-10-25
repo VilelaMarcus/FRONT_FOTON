@@ -12,14 +12,13 @@ import { ClipLoader } from "react-spinners";
 import { columnsAllegreto, columnsConstellation, columnsVisx, columnsIntralaser, columnsLaserSigth } from '../../data/mockColums.js';
  
 
-// const override: CSSProperties = {
-//   display: "block",
-//   position: 'relative',
-//   top: '30%',
-//   left: '2',
-//   margin: "0 auto",
-//   borderColor: "red",
-// };
+const override: CSSProperties = {
+  display: "block",
+  position: 'relative',
+  top: '30%',
+  left: '2',
+  margin: "0 auto",
+};
 
 const MetamorfTable = ({customer}) => {    
     const [laserName, setLaserName] =  useState('');
@@ -108,11 +107,11 @@ const MetamorfTable = ({customer}) => {
           },
         }}
       >
-         <ClipLoader
+        <ClipLoader
             loading={isLoading}
             color="white"
             size={120}
-            // cssOverride={override}
+            cssOverride={override}
             aria-label="Loading Spinner"
             data-testid="loader"
           />

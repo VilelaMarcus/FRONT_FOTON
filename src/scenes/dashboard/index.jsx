@@ -1,7 +1,9 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
+import { useAuth0 } from "@auth0/auth0-react";
 import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import BuildIcon from '@mui/icons-material/Build';
 import EmailIcon from "@mui/icons-material/Email";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import FlightIcon from '@mui/icons-material/Flight';
@@ -22,7 +24,9 @@ const Dashboard = () => {
   
   const data = useReadDashboardInfoQuery();
 
-  
+  const { logout, loginWithRedirect } = useAuth0();
+
+
   const {  currentMonthVisitCount, lastMonthVisitCount, newClients, lastVists } = useSelector(state => state.dashboard);
 
   console.log({data});
@@ -99,6 +103,12 @@ const Dashboard = () => {
             }
           />
         </Box>
+        
+        <button onClick={() => loginWithRedirect()}>Log In</button>
+        <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+          Log Out
+        </button>
+
         <Box
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
@@ -122,7 +132,7 @@ const Dashboard = () => {
         {/* ROW 2 */}
         <Box
           gridColumn="span 8"
-          gridRow="span 4"
+          gridRow="span 3"
           backgroundColor={colors.primary[400]}
         >
           <Box
@@ -155,7 +165,7 @@ const Dashboard = () => {
         </Box>
         <Box
           gridColumn="span 4"
-          gridRow="span 4"
+          gridRow="span 3"
           backgroundColor={colors.primary[400]}
           overflow="auto"
         >
@@ -194,11 +204,11 @@ const Dashboard = () => {
               </Box>
               <Box color={colors.grey[100]}>{visit.date}</Box>
               <Box
-                backgroundColor={colors.greenAccent[500]}
+                backgroundColor={visit?.unresolvedDefect.length > 0 ? colors.redAccent[500] : colors.greenAccent[500]}
                 p="5px 10px"
                 borderRadius="4px"
               >
-                {/* ${transaction.cost} */}
+                <BuildIcon />
               </Box>
             </Box>
           ))}
