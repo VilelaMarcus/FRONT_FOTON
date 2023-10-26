@@ -14,6 +14,7 @@ export const {
   endpoints,
   useReadVisitCustumerByLaserIdQuery,
   useReadVisitCustumerByLaserNameQuery,
+  useCreateVisitMeasurementMutation,
   useUpdateVisitMeasurementMutation,
   useReadAwardsQuery,
 } = apiSlice.injectEndpoints({
@@ -37,6 +38,15 @@ export const {
         };
       },
     }),
+    createVisitMeasurement: build.mutation({
+      query: (body) => {
+        return {
+          url: `/custumerMeasurement/`,
+          method: 'POST',
+          body,
+        };
+      },
+    }),
   }),
   overrideExisting: false,
 })
@@ -46,13 +56,57 @@ export const { reducer, actions } = createSlice({
   name: slice,
   initialState,
   reducers: {
-    addTeamMember: (state, { payload }) => {
-      state.list.push(payload);
+    addNewDate: (state, { payload }) => {
+      const name = payload.name;
+      const keys = Object.keys(payload);
+        switch (name) {
+          case "Allegretto":
+            state.allegretto = state.allegretto.map(e => {
+              if(e.id === payload.excludedId) { 
+                return payload;
+              }
+              else {
+                return e;
+              }
+            });
+            break;
+          case "Intralaser":
+            state.intralaser = state.intralaser.map(e => {
+              if(e.id === payload.id) {
+                const obj = { ...e, [keys[1]]: payload[keys[1]]}         
+                return obj;
+              }
+              else {
+                return e;
+              }
+            });
+            break;
+          case "Constellation":
+            state.constellation = state.constellation.map(e => {
+              if(e.id === payload.id) {
+                const obj = { ...e, [keys[1]]: payload[keys[1]]}         
+                return obj;
+              }
+              else {
+                return e;
+              }
+            });
+            break;
+          case "Visx":
+            state.visx = state.visx.map(e => {
+              if(e.id === payload.id) {
+                const obj = { ...e, [keys[1]]: payload[keys[1]]}         
+                return obj;
+              }
+              else {
+                return e;
+              }
+            });
+          break;
+          default:
+      }
     },
     updateList: (state, { payload }) => {
-      console.log({payload})
-      console.log({state})
-      console.log('aqui')
       const name = payload.name;
       const keys = Object.keys(payload);
         switch (name) {

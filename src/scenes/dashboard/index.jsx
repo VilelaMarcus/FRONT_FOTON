@@ -183,7 +183,7 @@ const Dashboard = () => {
           </Box>
           {lastVists.map((visit, i) => (
             <Box
-              key={`${visit.custumer_name}`}
+              key={`${visit.custumer_name}` + i}
               display="flex"
               justifyContent="space-between"
               alignItems="center"

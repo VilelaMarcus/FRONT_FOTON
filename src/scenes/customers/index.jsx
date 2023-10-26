@@ -1,5 +1,6 @@
-import { Box } from "@mui/material";
+import { Box, Button  } from "@mui/material";
 import { tokens } from "../../theme";
+import AddCustomerModal from './addCustomerModal';
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ const Custumer = (props) => {
   const location = useLocation();
   const { customerName } = location.state || '';
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [customer, setCustomer] = useState(customerName);
@@ -75,12 +77,24 @@ const Custumer = (props) => {
     singleValue: (styles, ) => ({ ...styles, ...dot('') }),
   };
 
-  console.log(customerData);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleSelect = (e) => {
     const { value } = e;
     value && setCustomer(value);
   }
+
+  const handleSaveCustomer = (formData) => {
+    // Implement your logic to save the customer data
+    console.log('Saving customer:', formData);
+    // You can dispatch an action to save the data to your Redux store, for example.
+  };
 
   return (
     <Box m="20px">
@@ -98,6 +112,19 @@ const Custumer = (props) => {
             />          
         </Box>
       </Box>
+      <Button
+        onClick={handleOpenModal}
+        sx={{ 
+          backgroundColor: '#F4F4F9', 
+          color: 'black',          
+          '&:hover': {
+            color: 'white',            
+            border: '1px solid white', 
+          },
+        }}
+      >      
+        Adicionar novo CLiente
+      </Button>
       <Box sx={{ display: 'flex',  justifyContent: 'space-between'}}>
         {/* <PanelClient /> */}
         {customerData && <Box height="10vh" sx={{}}>
@@ -106,6 +133,7 @@ const Custumer = (props) => {
         </Box>}
       </Box>
       { customerData && <MetamorfTable key={customerData.id} customer={customerData}/> }
+      <AddCustomerModal open={isModalOpen} onClose={handleCloseModal} onSave={handleSaveCustomer} />
     </Box>
   );
 };
