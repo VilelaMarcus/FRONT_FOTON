@@ -72,9 +72,8 @@ export const { reducer, actions } = createSlice({
             break;
           case "Intralaser":
             state.intralaser = state.intralaser.map(e => {
-              if(e.id === payload.id) {
-                const obj = { ...e, [keys[1]]: payload[keys[1]]}         
-                return obj;
+              if(e.id === payload.excludedId) { 
+                return payload;
               }
               else {
                 return e;
@@ -83,9 +82,8 @@ export const { reducer, actions } = createSlice({
             break;
           case "Constellation":
             state.constellation = state.constellation.map(e => {
-              if(e.id === payload.id) {
-                const obj = { ...e, [keys[1]]: payload[keys[1]]}         
-                return obj;
+              if(e.id === payload.excludedId) { 
+                return payload;
               }
               else {
                 return e;
@@ -94,9 +92,8 @@ export const { reducer, actions } = createSlice({
             break;
           case "Visx":
             state.visx = state.visx.map(e => {
-              if(e.id === payload.id) {
-                const obj = { ...e, [keys[1]]: payload[keys[1]]}         
-                return obj;
+              if(e.id === payload.excludedId) { 
+                return payload;
               }
               else {
                 return e;

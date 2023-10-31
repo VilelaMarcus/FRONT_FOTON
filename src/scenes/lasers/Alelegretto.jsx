@@ -14,7 +14,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MenuContext from "./MenuContext";
-import { v4 as uuidv4 } from 'uuid'; // Import v4 function from the uuid library
+import { v4 as uuidv4 } from 'uuid'; 
 
 const initialContextMenu = {
   show: false,

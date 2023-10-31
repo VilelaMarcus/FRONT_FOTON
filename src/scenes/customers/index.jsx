@@ -43,17 +43,14 @@ const Custumer = (props) => {
 
   const dot = (color = 'transparent') => ({
     alignItems: 'center',
-    display: 'flex',
+    display: 'flex',    
     color: colors.greenAccent[300],
 
     ':before': {
       backgroundColor: color,
       borderRadius: 10,
-      content: '" "',
       display: 'block',
-      marginRight: 8,
-      height: 10,
-      width: 10,
+      marginRight: 20,
     },
   });
 
@@ -105,8 +102,9 @@ const Custumer = (props) => {
         />
         <Box>
             <Select 
-              defaultValue={{label:customerName, value: customerName}}
-              options={options} 
+              options={options}
+              noOptionsMessage={() => "...carregando"}
+              placeholder="Selecione um cliente"
               styles={colourStyles}
               onChange={handleSelect}
             />          
@@ -123,7 +121,7 @@ const Custumer = (props) => {
           },
         }}
       >      
-        Adicionar novo CLiente
+        ADICIONAR NOVO CLIENTE
       </Button>
       <Box sx={{ display: 'flex',  justifyContent: 'space-between'}}>
         {/* <PanelClient /> */}
