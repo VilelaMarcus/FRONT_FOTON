@@ -24,17 +24,8 @@ const Dashboard = () => {
   
   const data = useReadDashboardInfoQuery();
 
-  const { logout, loginWithRedirect } = useAuth0();
+  const {  currentMonthVisitCount, lastVists } = useSelector(state => state.dashboard);
 
-
-  const {  currentMonthVisitCount, lastMonthVisitCount, newClients, lastVists } = useSelector(state => state.dashboard);
-
-  console.log({data});
-  console.log({lastMonthVisitCount});
-  console.log({currentMonthVisitCount});
-  console.log({lastVists});
-
-  const title = 36;
   return (
     <Box m="20px">
       {/* HEADER */}
@@ -93,36 +84,11 @@ const Dashboard = () => {
         >
           <StatBox
             title="2"
-            subtitle="New Clients"
+            subtitle="Novos Clientes"
             progress="0.30"
             increase="+2%"
             icon={
               <PersonAddIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
-        
-        <button onClick={() => loginWithRedirect()}>Log In</button>
-        <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-          Log Out
-        </button>
-
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="1,325,134"
-            subtitle="Traffic Received"
-            progress="0.80"
-            increase="+43%"
-            icon={
-              <TrafficIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
