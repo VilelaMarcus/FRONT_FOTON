@@ -87,7 +87,7 @@ const Allegretto = () => {
     return transformedItem;
   })
 
-  const clientsNames = rows.map(e => e.custumer_name)
+  const clientsNames = rows.map(e => e.customer_name)
 
   const handleCellChange = (params, e) => {
     let fieldChanged = params.field;

@@ -2,13 +2,14 @@ import React, { useState,  } from 'react';
 import { Modal, Box, Button, TextField, useTheme } from '@mui/material';
 import { tokens } from "../../theme";
 import Select from 'react-select'
-import { useCreateCustomerMutation } from './customerSlicer';
+import { actions, useCreateCustomerMutation } from './ownerSlicer';
 import { v4 as uuidv4 } from 'uuid';
 import { Lasers } from '../../data/mockData';
+import { useDispatch } from 'react-redux';
 
 
 const AddCustomerModal = ({ open, onClose }) => {
-  const [createTeste] = useCreateCustomerMutation()
+  const [createNewCustomer] = useCreateCustomerMutation()
 
   const dot = (color = 'transparent') => ({
     alignItems: 'center',
@@ -47,11 +48,12 @@ const AddCustomerModal = ({ open, onClose }) => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
 
+  const dispatch = useDispatch();
   const options = Lasers;
 
   const [formData, setFormData] = useState({
-    laserModel: '',
     name: '',
     email: '',
     cidade: '',
@@ -59,7 +61,6 @@ const AddCustomerModal = ({ open, onClose }) => {
   });
 
   const [validationError, setValidationError] = useState({
-    laserModel: '',
     name: '',
     email: '',
     cidade: '',
@@ -75,7 +76,6 @@ const AddCustomerModal = ({ open, onClose }) => {
 
   const handleCLose = () => {
     setFormData({
-      laserModel: '',
       cidade: '',
       name: '',
       email: '',
@@ -112,24 +112,29 @@ const AddCustomerModal = ({ open, onClose }) => {
     const id = uuidv4();
     const payload = {
       id: id,
-      custumer_name: formData.cidade,
+      customer_name: formData.cidade,
       owner: formData.name,
       email: formData.email,
       address: formData.address,
     }
 
-    createTeste(payload);
+    
+    
+    const success = createNewCustomer(payload);
+    console.log({success});
+    // dispatch(actions.addCostumer(payload))
+
     onClose();
   };
+
+  const handleSelect = (e) => {
+    const { value } = e;
+    setFormData({ ...formData, laserModel: value });
+  }
 
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, bgcolor: `${colors.primary[400]}`, boxShadow: 24, p: 4 }}>
-       <Select          
-          options={options} 
-          placeholder="Laser"
-          styles={colourStyles}
-        />  
         <TextField
           label="Médico"
           name="name"

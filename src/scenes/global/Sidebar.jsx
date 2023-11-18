@@ -136,15 +136,15 @@ const Sidebar = () => {
               Gerenciamento
             </Typography>
             <Item
-              title="Time"
-              to="/team"
+              title="Cliente"
+              to="/customer"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Cliente"
-              to="/customer"
+              title="Visitas / Cidades"
+              to="/aparelho"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

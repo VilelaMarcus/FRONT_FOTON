@@ -1,6 +1,5 @@
 import { Box, Button  } from "@mui/material";
 import { tokens } from "../../theme";
-import AddCustomerModal from './addCustomerModal';
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -15,27 +14,26 @@ const Custumer = (props) => {
   const location = useLocation();
   const { customerName } = location.state || '';
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [customer, setCustomer] = useState(customerName);
   const [options, setOptions] = useState({});
   const [customerData, setCustomerData] = useState([]);
-  useReadCustomerByLaserIdQuery('');
+  useReadCustomerByLaserIdQuery();
 
   const customersList = useSelector(state => state.customers.list);
    
   useEffect(() => {
     const opts = customersList.map((e) => {
       const obj ={ 
-        value : e.custumer_name,
-        label: e.custumer_name,
+        value : e.customer_name,
+        label: e.customer_name,
        }
       return obj
       
     })
     setOptions(opts)
-    const obj = customersList.find(obj => obj.custumer_name === customer);
+    const obj = customersList.find(obj => obj.customer_name === customer);
     setCustomerData(obj)
   },
   [customersList, customer])
@@ -74,55 +72,28 @@ const Custumer = (props) => {
     singleValue: (styles, ) => ({ ...styles, ...dot('') }),
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   const handleSelect = (e) => {
     const { value } = e;
     value && setCustomer(value);
   }
 
-  const handleSaveCustomer = (formData) => {
-    // Implement your logic to save the customer data
-    console.log('Saving customer:', formData);
-    // You can dispatch an action to save the data to your Redux store, for example.
-  };
-
   return (
     <Box m="20px">
       <Box sx={{ display: 'flex',  justifyContent: 'space-between'}}>
         <Header
-          title="Custumer"
-          subtitle="Details"
+          title="Visitas / Cidades"
+          subtitle="Detalhes"
         />
         <Box>
             <Select 
               options={options}
               noOptionsMessage={() => "...carregando"}
-              placeholder="Selecione um cliente"
+              placeholder="Selecione a cidade"
               styles={colourStyles}
               onChange={handleSelect}
             />          
         </Box>
       </Box>
-      <Button
-        onClick={handleOpenModal}
-        sx={{ 
-          backgroundColor: '#F4F4F9', 
-          color: 'black',          
-          '&:hover': {
-            color: 'white',            
-            border: '1px solid white', 
-          },
-        }}
-      >      
-        ADICIONAR NOVO CLIENTE
-      </Button>
       <Box sx={{ display: 'flex',  justifyContent: 'space-between'}}>
         {/* <PanelClient /> */}
         {customerData && <Box height="10vh" sx={{}}>
@@ -131,7 +102,6 @@ const Custumer = (props) => {
         </Box>}
       </Box>
       { customerData && <MetamorfTable key={customerData.id} customer={customerData}/> }
-      <AddCustomerModal open={isModalOpen} onClose={handleCloseModal} onSave={handleSaveCustomer} />
     </Box>
   );
 };

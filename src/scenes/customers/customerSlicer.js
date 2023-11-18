@@ -6,24 +6,14 @@ const slice = 'customers';
 
 export const {
   endpoints,
-  useCreateCustomerMutation,
   useReadCustomerByLaserIdQuery,
   useReadCustomerVisitMeasurementByCustomerIdQuery,
   useReadAwardsQuery,
 } = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    createCustomer: build.mutation({
-      query: (body) => {
-        return {
-          url: `/customer/`,
-          method: 'POST',
-          body,
-        };
-      },
-    }),
     readCustomerByLaserId: build.query({
-      query: (id) => `/customer/${id}`,
-      providesTags: ['customers'],
+      query: (id) => `/laserOfCustomer/`,
+      providesTags: ['laserOfCustomer'],
     }),
     readCustomerVisitMeasurementByCustomerId: build.query({
       query: (id) => `/custumerMeasurement/customerId/${id}`,
@@ -38,7 +28,7 @@ export const { reducer, actions } = createSlice({
   name: slice,
   initialState,
   reducers: {
-    addNewDate: (state, { payload }) => {
+    addCostumer: (state, { payload }) => {
       state.list.push(payload);
     },
   },

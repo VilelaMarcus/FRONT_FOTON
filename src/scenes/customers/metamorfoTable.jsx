@@ -28,8 +28,9 @@ const MetamorfTable = ({customer}) => {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const { data, isLoading } = useReadCustomerVisitMeasurementByCustomerIdQuery(customer.id);
+    const { data, isLoading } = useReadCustomerVisitMeasurementByCustomerIdQuery(customer.customer_id);
     
+    console.log({data})
     useEffect(() => {
       if (data && data.length >= 1) {
         setLaserName(data[0].laser_name);
@@ -43,7 +44,7 @@ const MetamorfTable = ({customer}) => {
         case 'Allegretto':
           setColumns(columnsAllegreto);
           break;
-        case 'visx':
+        case 'Visx':
           setColumns(columnsVisx);
           break;
         case 'LaserSight':

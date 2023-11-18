@@ -6,8 +6,7 @@ const slotColumnCommonFields = {
 
 export const columnsAllegreto = [
     { 
-        field: "custumer_name",
-        editable: true,
+        field: "customer_name",
         headerClassName: 'super-app-theme--fixed',
         cellClassName: 'super-app-theme--fixed',
         headerName: "Cliente",
@@ -224,8 +223,7 @@ export const columnsAllegreto = [
 
 export const columnsVisx = [
   { 
-      field: "custumer_name",
-      editable: true,
+      field: "customer_name",
       headerClassName: 'super-app-theme--fixed',
       cellClassName: 'super-app-theme--fixed',
       headerName: "Cliente",
@@ -414,8 +412,7 @@ export const columnsVisx = [
 
 export const columnsConstellation = [
   { 
-      field: "custumer_name",
-      editable: true,
+      field: "customer_name",
       headerClassName: 'super-app-theme--fixed',
       cellClassName: 'super-app-theme--fixed',
       headerName: "Cliente",
@@ -486,8 +483,7 @@ export const columnsConstellation = [
 
 export const columnsIntralaser = [
   { 
-      field: "custumer_name",
-      editable: true,
+      field: "customer_name",
       headerClassName: 'super-app-theme--fixed',
       cellClassName: 'super-app-theme--fixed',
       headerName: "Cliente",
@@ -585,8 +581,7 @@ export const columnsIntralaser = [
 
 export const columnsLaserSigth= [
   { 
-      field: "custumer_name",
-      editable: true,
+      field: "customer_name",
       headerClassName: 'super-app-theme--fixed',
       cellClassName: 'super-app-theme--fixed',
       headerName: "Cliente",

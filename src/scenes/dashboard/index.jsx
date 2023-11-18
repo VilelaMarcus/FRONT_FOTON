@@ -1,4 +1,5 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
 import { tokens } from "../../theme";
 import { useAuth0 } from "@auth0/auth0-react";
 import { mockTransactions } from "../../data/mockData";
@@ -22,30 +23,14 @@ const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   
-  const data = useReadDashboardInfoQuery();
-
+  useReadDashboardInfoQuery();
   const {  currentMonthVisitCount, lastVists } = useSelector(state => state.dashboard);
 
   return (
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-
-        <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box>
+        <Header title="DASHBOARD" subtitle="Foton tecnologia" />
       </Box>
 
       {/* GRID & CHARTS */}
@@ -57,7 +42,7 @@ const Dashboard = () => {
       >
         {/* ROW 1 */}
         <Box
-          gridColumn="span 3"
+          gridColumn="span 4"
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
@@ -76,7 +61,7 @@ const Dashboard = () => {
           />
         </Box>
         <Box
-          gridColumn="span 3"
+          gridColumn="span 4"
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
@@ -94,7 +79,26 @@ const Dashboard = () => {
             }
           />
         </Box>
-
+        <Box
+            to="/editar-os"
+            gridColumn="span 4"
+            backgroundColor={colors.primary[400]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Button
+              style={{ textDecoration: 'none', color: 'inherit' }}
+              fullWidth
+            >
+              <Box textAlign="center">
+                <EditIcon sx={{ color: colors.greenAccent[600], fontSize: '36px' }} />
+                <Typography variant="h6" sx={{ marginTop: '8px', color: 'white' }}>
+                  Editar OS
+                </Typography>
+              </Box>
+            </Button>
+        </Box>
         {/* ROW 2 */}
         <Box
           gridColumn="span 8"
@@ -149,7 +153,7 @@ const Dashboard = () => {
           </Box>
           {lastVists.map((visit, i) => (
             <Box
-              key={`${visit.custumer_name}` + i}
+              key={`${visit.customer_name}` + i}
               display="flex"
               justifyContent="space-between"
               alignItems="center"
@@ -162,7 +166,7 @@ const Dashboard = () => {
                   variant="h5"
                   fontWeight="600"
                 >
-                  {visit.custumer_name}
+                  {visit.customer_name}
                 </Typography>
                 <Typography color={colors.grey[100]}>
                   {visit.tecnic}

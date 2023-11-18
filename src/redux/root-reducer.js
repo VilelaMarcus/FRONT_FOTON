@@ -9,6 +9,10 @@ import {
   slice as customerSlice,
 } from '../scenes/customers/customerSlicer';
 import {
+  reducer as ownerReducer,
+  slice as ownerSlice,
+} from '../scenes/onwers/ownerSlicer';
+import {
   reducer as dashboardReducer,
   slice as dashboardSlicer,
 } from '../scenes/dashboard/dashboardSlice';
@@ -20,6 +24,7 @@ import {
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
     [customerSlice]: customerReducer,
+    [ownerSlice]: ownerReducer,
     [visitCustumerMeasurementSlice]: visitCustumerMeasurementReducer,
     [dashboardSlicer]: dashboardReducer,
 });
