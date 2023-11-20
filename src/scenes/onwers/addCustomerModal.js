@@ -56,15 +56,11 @@ const AddCustomerModal = ({ open, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    cidade: '',
-    address: '',
   });
 
   const [validationError, setValidationError] = useState({
     name: '',
     email: '',
-    cidade: '',
-    address: '',
   });
 
   const handleInputChange = (e) => {
@@ -97,7 +93,7 @@ const AddCustomerModal = ({ open, onClose }) => {
     // Check each field for empty values
     Object.keys(formData).forEach((key) => {
       if (!formData[key]) {
-        errors[key] = 'This field is required.';
+        errors[key] = 'Esse campo é necessário.';
         isValid = false;
       }
     });
@@ -126,11 +122,6 @@ const AddCustomerModal = ({ open, onClose }) => {
 
     onClose();
   };
-
-  const handleSelect = (e) => {
-    const { value } = e;
-    setFormData({ ...formData, laserModel: value });
-  }
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -161,42 +152,6 @@ const AddCustomerModal = ({ open, onClose }) => {
           fullWidth
           error={!!validationError.email}
           helperText={validationError.email}
-          sx={{
-            '& .MuiInputLabel-root': {
-              color: 'white',
-            },
-            '& .MuiInput-underline:after': {
-              borderBottomColor: 'white',
-            },
-          }}
-          margin="normal"
-        />
-        <TextField
-          label="Cidade"
-          name="cidade"
-          value={formData.cidade}
-          onChange={handleInputChange}
-          fullWidth
-          error={!!validationError.cidade}
-          helperText={validationError.cidade}
-          sx={{
-            '& .MuiInputLabel-root': {
-              color: 'white',
-            },
-            '& .MuiInput-underline:after': {
-              borderBottomColor: 'white',
-            },
-          }}
-          margin="normal"
-        />
-        <TextField
-          label="Endereço"
-          name="address"
-          value={formData.address}
-          onChange={handleInputChange}
-          fullWidth
-          error={!!validationError.address}
-          helperText={validationError.address}
           sx={{
             '& .MuiInputLabel-root': {
               color: 'white',

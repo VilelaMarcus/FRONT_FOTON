@@ -1,12 +1,11 @@
-import { Box, Button  } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
+import AddCustomerModal from './AddCustomerModal';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import AddEquipmentToClient from "./AddEquipmentToClient";
 import { tokens } from "../../theme";
-import AddCustomerModal from './addCustomerModal';
-import Header from "../../components/Header";
-import { useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import Select from 'react-select'
 import { useGetLasersByCostumerIdQuery, useReadAllOwnersQuery } from "./ownerSlicer";
@@ -14,7 +13,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from 'react-router-dom';
 import { ClipLoader } from "react-spinners";
 
-const override: CSSProperties = {
+const override = {
   display: "block",
   position: 'relative',
   top: '30%',
@@ -22,27 +21,46 @@ const override: CSSProperties = {
   margin: "0 auto",
 };
 
-
 const CustomerDetail = ({ customer, onDelete, onEdit, onAddEquipment }) => {
-    console.log({customer});
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    
     const { data, isLoading } = useGetLasersByCostumerIdQuery(customer.id);
 
     console.log({data});
 
     if (!customer) {
         return <p>Detalhes do cliente não disponíveis.</p>;
-      }
-    
+    }
+
+    const openModal = () => {
+    setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+    setIsModalOpen(false);
+    };
+
     const handleEdit = () => {
     onEdit(customer.id);
     };
 
-    const handleDelete = () => {
-    onDelete(customer.id);
+    const handleDelete = (equipmentId) => {
+    onDelete(equipmentId);
     };
 
     const handleAddEquipment = () => {
-    onAddEquipment(customer.id);
+    openModal();
+    };
+    
+
+    const handleSaveEquipment = (formData) => {
+    // Add your logic to save equipment data
+    // You can pass this function to your modal component
+    console.log('Saving equipment data:', formData);
+    // Close the modal after saving
+    closeModal();
     };
 
     return (
@@ -79,7 +97,7 @@ const CustomerDetail = ({ customer, onDelete, onEdit, onAddEquipment }) => {
                     {data && data.map((equipment) => (
                         <Paper key={equipment.id} sx={{ padding: '15px', margin: '10px 0', backgroundColor: '#EFEFEF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <div>
-                                <p style={{ fontSize: '18px', margin: 0 }}>{equipment.laser_name}</p>
+                                <p style={{ fontSize: '18px', margin: 0, color: colors.greenAccent[400] }}>{equipment.laser_name}</p>
                                 <p style={{ fontSize: '16px', margin: 0, color: '#777' }}>{equipment.customer_name}</p>
                             </div>
                             <div>
@@ -97,9 +115,8 @@ const CustomerDetail = ({ customer, onDelete, onEdit, onAddEquipment }) => {
                 </Button>
             </Box>
             </Paper>
-        )
-        }
-       
+        )}
+        <AddEquipmentToClient open={isModalOpen} onClose={closeModal} customer_id={customer.id}/>
     </>
     );
 };

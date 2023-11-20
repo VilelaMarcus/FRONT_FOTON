@@ -7,6 +7,7 @@ const slice = 'owners';
 export const {
   endpoints,
   useCreateCustomerMutation,
+  useAddEquipmentToCustomerMutation,
   useReadAllOwnersQuery,
   useGetLasersByCostumerIdQuery,
   useReadAwardsQuery,
@@ -28,6 +29,15 @@ export const {
     getLasersByCostumerId: build.query({
       query: (id) => `/laserOfCustomer/${id}`,
       providesTags: ['customers'],
+    }),
+    addEquipmentToCustomer: build.mutation({
+      query: (body) => {
+        return {
+          url: `/laserOfCustomer/`,
+          method: 'POST',
+          body,
+        };
+      },
     }),
   }),
   overrideExisting: false,

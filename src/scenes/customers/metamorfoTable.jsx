@@ -12,7 +12,7 @@ import { ClipLoader } from "react-spinners";
 import { columnsAllegreto, columnsConstellation, columnsVisx, columnsIntralaser, columnsLaserSigth } from '../../data/mockColums.js';
  
 
-const override: CSSProperties = {
+const override = {
   display: "block",
   position: 'relative',
   top: '30%',
@@ -21,6 +21,7 @@ const override: CSSProperties = {
 };
 
 const MetamorfTable = ({customer}) => {    
+    console.log({customer});
     const [laserName, setLaserName] =  useState('');
     const [columns, setColumns] =  useState([]);
     const [rows, setRows] = useState([]);
@@ -28,7 +29,7 @@ const MetamorfTable = ({customer}) => {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const { data, isLoading } = useReadCustomerVisitMeasurementByCustomerIdQuery(customer.customer_id);
+    const { data, isLoading } = useReadCustomerVisitMeasurementByCustomerIdQuery(customer.id);
     
     console.log({data})
     useEffect(() => {

@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { tokens } from "../../theme";
-import AddCustomerModal from './addCustomerModal';
+import AddCustomerModal from './AddCustomerModal';
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -26,25 +26,17 @@ const Owners = (props) => {
   const customersList = useSelector(state => state.owners.list);
   console.log({customerSelected});
   console.log({customersList});
-  
-
 
   const handleDelete = () => {
-    // Implement your delete logic here
     console.log('Deleting customer:', customerData);
-    // You can dispatch an action to delete the data from your Redux store, for example.
   };
 
   const handleEdit = () => {
-    // Implement your edit logic here
     console.log('Editing customer:', customerData);
-    // You can navigate to an edit page or show a modal for editing
   };
 
   const handleAddEquipment = () => {
-    // Implement your add equipment logic here
     console.log('Adding equipment for customer:', customerData);
-    // You can navigate to a page for adding equipment to the selected customer
   };
 
   useEffect(() => {
