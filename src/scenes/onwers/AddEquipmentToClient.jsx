@@ -130,12 +130,12 @@ const handleSave = () => {
     onClose();
 };
 
-        const handleSelect = (e) => {
+    const handleSelect = (e) => {
         console.log({e})
         const { value } = e;
         console.log({value})
         setFormData({ ...formData, laser_id: e.id, laser_name: e.value });
-        }
+    }
 
 return (
     <Modal open={open} onClose={onClose}>

@@ -28,11 +28,11 @@ const CustomerDetail = ({ customer, onEdit }) => {
     const [submissionDone, setSubmissionDone] = useState(false);
     const { data, isLoading } = useGetLasersByCostumerIdQuery(customer.id);
     const [onDelete] = useDeleteEquipmentMutation();    
-        
+    const dispatch = useDispatch();
+    
     const equipments = useSelector(state => state.owners.currentEquipments);
-    const flattenedEquipments = equipments.flat();
+    const flattenedEquipments = equipments.flat().filter(e => e.customer_id === customer.id);
 
-    console.log({flattenedEquipments});
     useEffect(() => {
         let doneMessageTimeout;
         
@@ -66,10 +66,13 @@ const CustomerDetail = ({ customer, onEdit }) => {
     };
 
     const handleDelete = async (equipmentId) => {
-        console.log({equipmentId})
+        console.log(equipmentId)
+        const payload = {
+            id: equipmentId
+        }
         const response = await onDelete(equipmentId);
-        console.log({response})
         setSubmissionDone(true)
+        dispatch(actions.deleteEquipment(payload));
 
         if(response){
             setSubmissionDone(true)

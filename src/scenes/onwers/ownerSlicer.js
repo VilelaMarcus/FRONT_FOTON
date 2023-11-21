@@ -66,6 +66,10 @@ export const { reducer, actions } = createSlice({
     updateListEquipments: (state, { payload }) => {
       state.currentEquipments.push(payload);
     },
+    deleteEquipment: (state, { payload }) => {
+      console.log({payload})
+      state.currentEquipments = state.currentEquipments.filter(e => e.id !== payload.id)
+    },
   },
   extraReducers(builder) {
     builder.addMatcher(
