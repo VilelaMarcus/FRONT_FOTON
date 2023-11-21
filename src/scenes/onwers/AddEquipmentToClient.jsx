@@ -5,7 +5,7 @@ import Select from 'react-select'
 import { v4 as uuidv4 } from 'uuid';
 import { Lasers } from '../../data/mockData';
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import { actions, useAddEquipmentToCustomerMutation } from './ownerSlicer';
 
@@ -131,9 +131,6 @@ const handleSave = () => {
 };
 
     const handleSelect = (e) => {
-        console.log({e})
-        const { value } = e;
-        console.log({value})
         setFormData({ ...formData, laser_id: e.id, laser_name: e.value });
     }
 

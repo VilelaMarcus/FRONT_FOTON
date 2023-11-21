@@ -22,10 +22,6 @@ const Owners = (props) => {
   console.log({customerSelected});
   console.log({customersList});
 
-  const handleDelete = () => {
-    console.log('Deleting customer:', customerData);
-  };
-
   const handleEdit = () => {
     console.log('Editing customer:', customerData);
   };

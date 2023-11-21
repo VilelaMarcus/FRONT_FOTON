@@ -5,22 +5,69 @@ import calculateDaysPassedFromDate from '../../utils/dateUltils';
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { columnsConstellation } from "../../data/mockColums";
-import { useReadVisitCustumerByLaserNameQuery, useUpdateVisitMeasurementMutation, actions } from './custumerVisitMeasurementSlicer'
+import { 
+  useReadVisitCustumerByLaserNameQuery, 
+  useCreateVisitMeasurementMutation,
+  useUpdateVisitMeasurementMutation, 
+  actions
+} from './custumerVisitMeasurementSlicer'
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import MenuContext from "./MenuContext";
+import { v4 as uuidv4 } from 'uuid'; 
+
+const initialContextMenu = {
+  show: false,
+  customerName: '',
+  y:0,
+}
 
 const Constellation = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [rows, setRows] = useState([]);
-  const dispatch = useDispatch();
-  useReadVisitCustumerByLaserNameQuery('Constellation');
-
-  const visitCustumerList = useSelector(state => state.visitCustomerMeasurement.constellation);
-
-
   const [updateVisitMeasurement] = useUpdateVisitMeasurementMutation();
+  const [createNewRecordOfVisit] = useCreateVisitMeasurementMutation();
+  const [rows, setRows] = useState([]);
+  const [showDateAlert, setShowDateAlert] = useState(false);
+  const [contextMenu, setContextMenu] = useState(initialContextMenu);
+  
+  const styleWarning = {
+    position: 'fixed', // Fixed the typo here
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'rgba(255, 255, 255)',
+    color: 'black',
+    padding: '20px',
+    borderRadius: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'center',
+    zIndex: 10000,
+  };
+
+  useEffect(() => {
+    let doneMessageTimeout;
+
+    if (showDateAlert) {
+      // Set a timeout to clear the showDateAlert after 5 seconds
+      doneMessageTimeout = setTimeout(() => {
+        setShowDateAlert(false);
+      }, 2500);
+    }
+
+    return () => {
+      clearTimeout(doneMessageTimeout);
+    };
+  }, [showDateAlert]);
+
   let payload= {};
+  useReadVisitCustumerByLaserNameQuery('Constellation');
+  
+
+  const dispatch = useDispatch();
+  const visitCustumerList = useSelector(state => state.visitCustomerMeasurement.constellation);
 
   useEffect(() => {
     setRows(Object.values(visitCustumerList))
@@ -33,28 +80,80 @@ const Constellation = () => {
     for (const key in measure) {
       transformedItem[key] = measure[key] !== undefined && measure[key] !== null && measure[key] !== '' ? measure[key] : '-';
     }    
-    transformedItem["days"] = calculateDaysPassedFromDate(measure.date);
+    transformedItem["days"] = calculateDaysPassedFromDate(measure?.date);
 
     return transformedItem;
   })
 
-  console.log('render');
+  const clientsNames = rows.map(e => e.customer_name)
 
   const handleCellChange = (params, e) => {
-    payload = {
-      id: params.id
-    };
-    payload[params.field] = params.value;
-    dispatch(actions.updateList(payload))
-    updateVisitMeasurement(payload);
+    let fieldChanged = params.field;
+    if(fieldChanged === "date"){     
+
+      const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+      const isDateFormated = dateRegex.test(params.value)
+      if(isDateFormated){
+        const allVisitData = visitCustumerList.find(item => item.id === params.id);
+        const id = uuidv4();
+        payload = {
+          ...allVisitData,
+          name: 'Constellation',
+          id: id,
+          excludedId: params.id
+        };
+          payload[fieldChanged] = params.value;
+          createNewRecordOfVisit(payload);
+          dispatch(actions.addNewDate(payload))  
+      } else{
+        setShowDateAlert(true);
+      }  
+      
+      
+    } else {
+      payload = {
+        name: 'Constellation',
+        id: params.id,
+      };
+
+        payload[fieldChanged] = params.value;
+        updateVisitMeasurement(payload);
+        dispatch(actions.updateList(payload))
+    }
   }
+
+  const onContextMenu = (e) => {
+    e.preventDefault();
+    let target = e.target.innerHTML;
+    const { pageY } = e;
+
+    setContextMenu({
+      show: false,
+    })
+    
+    if(clientsNames.includes(target)) {
+      console.log(target);
+      setContextMenu({
+        show: true,
+        customerName: target,
+        y: pageY,
+      })
+      
+    }
+      
+  };
   
   return (
     <Box m="20px" position={"relative"}>
       <Header
         title="Constellation"
-        subtitle="Ultimas visitas"
+        subtitle="Ultimas visitas realizadas"
       />
+      {showDateAlert && (
+          <div style={styleWarning}> 
+            Favor coloque a data no formato DD/MM/YYYY
+          </div>
+      )}
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -97,6 +196,8 @@ const Constellation = () => {
             color: `${colors.grey[100]} !important`,
           },
         }}
+        onClick={() => setContextMenu({show: false })}
+        onContextMenu={onContextMenu}
       >
         <DataGrid
           rows={rowsToDisplay}
@@ -104,6 +205,7 @@ const Constellation = () => {
           onCellEditCommit={handleCellChange}
           components={{ Toolbar: GridToolbar }}
         />
+        {contextMenu.show && <MenuContext y={contextMenu.y} customerName={contextMenu.customerName} />}
       </Box>
     </Box>
   );

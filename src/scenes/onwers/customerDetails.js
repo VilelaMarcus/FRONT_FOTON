@@ -1,5 +1,4 @@
 import { Box, Button, useTheme } from "@mui/material";
-import AddCustomerModal from './AddCustomerModal';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,7 +6,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddEquipmentToClient from "./AddEquipmentToClient";
 import { tokens } from "../../theme";
 import { useEffect, useState } from "react";
-import Select from 'react-select'
 import { useDeleteEquipmentMutation, useGetLasersByCostumerIdQuery, actions } from "./ownerSlicer";
 import { useDispatch, useSelector } from "react-redux"
 import { ClipLoader } from "react-spinners";
@@ -121,8 +119,8 @@ const CustomerDetail = ({ customer, onEdit }) => {
                     {data && flattenedEquipments.map((equipment) => (
                         <Paper key={equipment.id} sx={{ padding: '15px', margin: '10px 0', backgroundColor: '#EFEFEF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <div>
-                                <p style={{ fontSize: '18px', margin: 0, color: colors.greenAccent[400] }}>{equipment.laser_name}</p>
-                                <p style={{ fontSize: '16px', margin: 0, color: '#777' }}>{equipment.customer_name}</p>
+                                <p style={{ fontSize: '16px', margin: 0, color: colors.greenAccent[600] }}>{equipment.customer_name}</p>
+                                <p style={{ fontSize: '18px', margin: 0, color: '#777' }}>{equipment.laser_name}</p>
                             </div>
                             <div>
                                 <IconButton color="error" onClick={() => handleDelete(equipment.id)}>
