@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { apiSlice } from '../../redux/api/api-slice';
 
-export const initialState = { list: [] };
+export const initialState = { 
+  list: [],
+  currentEquipments: []
+};
 const slice = 'owners';
 
 export const {
@@ -10,6 +13,7 @@ export const {
   useAddEquipmentToCustomerMutation,
   useReadAllOwnersQuery,
   useGetLasersByCostumerIdQuery,
+  useDeleteEquipmentMutation,
   useReadAwardsQuery,
 } = apiSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -29,6 +33,14 @@ export const {
     getLasersByCostumerId: build.query({
       query: (id) => `/laserOfCustomer/${id}`,
       providesTags: ['customers'],
+    }),
+    deleteEquipment: build.mutation({
+      query: (id) => {
+        return {
+          url: `/laserOfCustomer/${id}`,
+          method: 'DELETE',
+        };
+      },
     }),
     addEquipmentToCustomer: build.mutation({
       query: (body) => {
@@ -51,6 +63,9 @@ export const { reducer, actions } = createSlice({
     addCostumer: (state, { payload }) => {
       state.list.push(payload);
     },
+    updateListEquipments: (state, { payload }) => {
+      state.currentEquipments.push(payload);
+    },
   },
   extraReducers(builder) {
     builder.addMatcher(
@@ -62,8 +77,13 @@ export const { reducer, actions } = createSlice({
     builder.addMatcher(
       endpoints.createCustomer.matchFulfilled,
       (state, { payload }) => {
-        console.log({payload});
         state.list.push(payload);
+    }
+    );
+    builder.addMatcher(
+      endpoints.getLasersByCostumerId.matchFulfilled,
+      (state, { payload }) => {
+        state.currentEquipments.push(payload);
     }
     );
   },

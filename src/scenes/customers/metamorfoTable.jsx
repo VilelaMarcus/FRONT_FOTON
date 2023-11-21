@@ -79,10 +79,21 @@ const MetamorfTable = ({customer}) => {
     return(
       <Box
         m="40px 0 0 0"
-        height="50vh"
+        height="55vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
+            fontSize: "16px",
+          }, 
+            '& .super-app.negative': {
+            backgroundColor: '#FFE66D',
+            color: '#1a3e72',
+            fontWeight: '600',
+          },
+          '& .super-app.positive': {
+            backgroundColor: '#d47483',
+            color: '#1a3e72',
+            fontWeight: '600',
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",

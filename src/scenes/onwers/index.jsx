@@ -1,8 +1,4 @@
 import { Box, Button  } from "@mui/material";
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import { tokens } from "../../theme";
 import AddCustomerModal from './AddCustomerModal';
 import Header from "../../components/Header";
@@ -11,7 +7,6 @@ import { useEffect, useState } from "react";
 import Select from 'react-select'
 import { useReadAllOwnersQuery } from "./ownerSlicer";
 import { useSelector } from "react-redux";
-import { useLocation } from 'react-router-dom';
 import CustomerDetail from "./customerDetails";
 
 const Owners = (props) => {
@@ -138,13 +133,14 @@ const Owners = (props) => {
         ADICIONAR NOVO CLIENTE
       </Button>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-        {customerData && (<CustomerDetail
-          key={customerData.id}
-          customer={customerData}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-          onAddEquipment={handleAddEquipment}
-        />)}
+        {customerData && (
+          <CustomerDetail
+            key={customerData.id}
+            customer={customerData}
+            onEdit={handleEdit}
+            onAddEquipment={handleAddEquipment}
+          />
+        )}
       </Box>
       <AddCustomerModal open={isModalOpen} onClose={handleCloseModal} onSave={handleSaveCustomer} />
     </Box>

@@ -5,12 +5,16 @@ import Select from 'react-select'
 import { v4 as uuidv4 } from 'uuid';
 import { Lasers } from '../../data/mockData';
 
+import { useDispatch, useSelector } from "react-redux"
+
 import { actions, useAddEquipmentToCustomerMutation } from './ownerSlicer';
 
 const AddEquipmentToClient = ({ open, onClose, customer_id}) => {
     
     const [addEquipmentToCustomer] = useAddEquipmentToCustomerMutation()
 
+    
+    const dispatch = useDispatch();
     const dot = (color = 'transparent') => ({
         alignItems: 'center',
         display: 'flex',
@@ -53,6 +57,7 @@ const AddEquipmentToClient = ({ open, onClose, customer_id}) => {
 
     const [formData, setFormData] = useState({
         laser_id: options[0].id,
+        laser_name: options[0].value,
         customer_name: '',
         city: '',
         address: '',
@@ -75,7 +80,6 @@ const AddEquipmentToClient = ({ open, onClose, customer_id}) => {
 
     const handleCLose = () => {
         setFormData({
-            laserModel: '',
             customer_name: '',
             city: '',
             address: '',
@@ -103,35 +107,34 @@ const handleSave = () => {
     // Set validation errors and return if any field is empty
     setValidationError(errors);
 
-    console.log({isValid})
-    console.log({errors})
     if (!isValid) {
         return;
     }
-    console.log('assssquie ?')
 
     // If all validations pass, proceed with saving
     const id = uuidv4();
     const payload = {
         id: id,
         laser_id: formData.laser_id,
+        laser_name: formData.laser_name,
         customer_id: customer_id,
         customer_name: formData.customer_name,
         address: formData.address,
         city: formData.city,
         zip_code: formData.zip_code,
     }
-    console.log('pay')
-    console.log({payload})
 
     const success = addEquipmentToCustomer(payload);
-    console.log({success});
+    
+    success && dispatch(actions.updateListEquipments(payload))
     onClose();
 };
 
         const handleSelect = (e) => {
+        console.log({e})
         const { value } = e;
-        setFormData({ ...formData, laserModel: value });
+        console.log({value})
+        setFormData({ ...formData, laser_id: e.id, laser_name: e.value });
         }
 
 return (

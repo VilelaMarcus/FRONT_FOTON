@@ -8,10 +8,10 @@ import AddEquipmentToClient from "./AddEquipmentToClient";
 import { tokens } from "../../theme";
 import { useEffect, useState } from "react";
 import Select from 'react-select'
-import { useGetLasersByCostumerIdQuery, useReadAllOwnersQuery } from "./ownerSlicer";
-import { useSelector } from "react-redux";
-import { useLocation } from 'react-router-dom';
+import { useDeleteEquipmentMutation, useGetLasersByCostumerIdQuery, actions } from "./ownerSlicer";
+import { useDispatch, useSelector } from "react-redux"
 import { ClipLoader } from "react-spinners";
+import ResponseMessage from "../../utils/responseMessage";
 
 const override = {
   display: "block",
@@ -21,14 +21,33 @@ const override = {
   margin: "0 auto",
 };
 
-const CustomerDetail = ({ customer, onDelete, onEdit, onAddEquipment }) => {
+const CustomerDetail = ({ customer, onEdit }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    
+    const [isModalOpen, setIsModalOpen] = useState(false);    
+    const [submissionDone, setSubmissionDone] = useState(false);
     const { data, isLoading } = useGetLasersByCostumerIdQuery(customer.id);
+    const [onDelete] = useDeleteEquipmentMutation();    
+        
+    const equipments = useSelector(state => state.owners.currentEquipments);
+    const flattenedEquipments = equipments.flat();
 
-    console.log({data});
+    console.log({flattenedEquipments});
+    useEffect(() => {
+        let doneMessageTimeout;
+        
+        if (submissionDone) {
+            // Set a timeout to clear the submissionDone after 5 seconds
+            doneMessageTimeout = setTimeout(() => {
+            setSubmissionDone(false);
+            }, 2000);
+        }
+
+        return () => {
+            clearTimeout(doneMessageTimeout);
+        };
+    }, [submissionDone]);
+
 
     if (!customer) {
         return <p>Detalhes do cliente não disponíveis.</p>;
@@ -46,25 +65,27 @@ const CustomerDetail = ({ customer, onDelete, onEdit, onAddEquipment }) => {
     onEdit(customer.id);
     };
 
-    const handleDelete = (equipmentId) => {
-    onDelete(equipmentId);
+    const handleDelete = async (equipmentId) => {
+        console.log({equipmentId})
+        const response = await onDelete(equipmentId);
+        console.log({response})
+        setSubmissionDone(true)
+
+        if(response){
+            setSubmissionDone(true)
+        } 
     };
 
     const handleAddEquipment = () => {
-    openModal();
+        openModal();
     };
-    
 
-    const handleSaveEquipment = (formData) => {
-    // Add your logic to save equipment data
-    // You can pass this function to your modal component
-    console.log('Saving equipment data:', formData);
-    // Close the modal after saving
-    closeModal();
-    };
 
     return (
     <>
+        {submissionDone && (
+            <ResponseMessage text={'Equipamento removido com sucesso'}/>
+        )}
         <ClipLoader
             loading={isLoading}
             color="white"
@@ -74,7 +95,7 @@ const CustomerDetail = ({ customer, onDelete, onEdit, onAddEquipment }) => {
             data-testid="loader" 
         />
         {data && (
-            <Paper sx={{ padding: '30px', backgroundColor: '#A9A9A9', borderRadius: '15px', flexGrow: 1, position: 'relative' }}>
+            <Paper sx={{ padding: '30px', backgroundColor: '#A9A9A9', borderRadius: '15px', flexGrow: 1, position: 'relative', }}>
             <IconButton
                 sx={{
                     position: 'absolute',
@@ -94,7 +115,7 @@ const CustomerDetail = ({ customer, onDelete, onEdit, onAddEquipment }) => {
             <Box mt="20px">
                 <h3 style={{ fontSize: '20px' }}>Equipamentos:</h3>
                 <ul>
-                    {data && data.map((equipment) => (
+                    {data && flattenedEquipments.map((equipment) => (
                         <Paper key={equipment.id} sx={{ padding: '15px', margin: '10px 0', backgroundColor: '#EFEFEF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <div>
                                 <p style={{ fontSize: '18px', margin: 0, color: colors.greenAccent[400] }}>{equipment.laser_name}</p>

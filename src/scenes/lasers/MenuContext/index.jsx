@@ -8,7 +8,7 @@ const MenuContext = ({y, customerName}) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate('/customer', { state: { customerName: customerName } });
+        navigate('/aparelho', { state: { customerName: customerName } });
     }
     
     return(
