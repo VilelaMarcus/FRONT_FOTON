@@ -1,57 +1,15 @@
 import React, { useState,  } from 'react';
 import { Modal, Box, Button, TextField, useTheme } from '@mui/material';
-import { tokens } from "../../theme";
-import Select from 'react-select'
-import { actions, useCreateCustomerMutation } from './ownerSlicer';
+import { tokens } from "../../../theme";
+import { useCreateCustomerMutation } from '../ownerSlicer';
 import { v4 as uuidv4 } from 'uuid';
-import { Lasers } from '../../data/mockData';
-import { useDispatch } from 'react-redux';
 
 
 const AddCustomerModal = ({ open, onClose }) => {
   const [createNewCustomer] = useCreateCustomerMutation()
 
-  const dot = (color = 'transparent') => ({
-    alignItems: 'center',
-    display: 'flex',
-    color: colors.greenAccent[300],
-
-    ':before': {
-      backgroundColor: color,
-      borderRadius: 10,
-      display: 'block',
-      height: 10,
-      width: 10,
-    },
-  });
-
-  const colourStyles = {
-    control: (styles) => ({ ...styles, backgroundColor: '' }),
-    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-      return {
-        ...styles,
-        color: 'black',
-
-        cursor: isDisabled ? 'not-allowed' : 'default',
-  
-        ':active': {
-          ...styles[':active'],
-          
-        },
-      };
-    },
-    input: (styles) => ({ ...styles, ...dot() }),
-    placeholder: (styles) => ({ ...styles, ...dot('') }),
-    singleValue: (styles, ) => ({ ...styles, ...dot('') }),
-  };
-
-
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  
-
-  const dispatch = useDispatch();
-  const options = Lasers;
 
   const [formData, setFormData] = useState({
     name: '',

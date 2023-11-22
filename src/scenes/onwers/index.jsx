@@ -1,6 +1,6 @@
 import { Box, Button  } from "@mui/material";
 import { tokens } from "../../theme";
-import AddCustomerModal from './AddCustomerModal';
+import AddCustomerModal from './ModalOwners/AddCustomerModal';
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import Select from 'react-select'
 import { useReadAllOwnersQuery } from "./ownerSlicer";
 import { useSelector } from "react-redux";
 import CustomerDetail from "./customerDetails";
+import { useReadEquipmentsQuery } from "../dashboard/dashboardSlice";
 
 const Owners = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,10 +18,9 @@ const Owners = (props) => {
   const [options, setOptions] = useState({});
   const [customerData, setCustomerData] = useState();
   useReadAllOwnersQuery();
+  useReadEquipmentsQuery()
 
   const customersList = useSelector(state => state.owners.list);
-  console.log({customerSelected});
-  console.log({customersList});
 
   const handleEdit = () => {
     console.log('Editing customer:', customerData);
@@ -35,7 +35,7 @@ const Owners = (props) => {
       const obj ={ 
         value : e.owner,
         label: e.owner,
-       }
+}
       return obj
       
     })

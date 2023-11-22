@@ -1,19 +1,35 @@
-import React, { useState,  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Box, Button, TextField, useTheme } from '@mui/material';
-import { tokens } from "../../theme";
+import { tokens } from "../../../theme";
 import Select from 'react-select'
 import { v4 as uuidv4 } from 'uuid';
-import { Lasers } from '../../data/mockData';
 
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
-import { actions, useAddEquipmentToCustomerMutation } from './ownerSlicer';
+import { actions, useAddEquipmentToCustomerMutation } from '../ownerSlicer';
 
 const AddEquipmentToClient = ({ open, onClose, customer_id}) => {
-    
     const [addEquipmentToCustomer] = useAddEquipmentToCustomerMutation()
+    const [options, setOptions] = useState({});  
+    const { Lasers } = useSelector(state => state.dashboard);
+
+    console.log({Lasers});
 
     
+  useEffect(() => {
+    const opts = Lasers.map((e) => {
+      const obj ={ 
+        id: e.id,
+        value : e.laser_name,
+        label: e.laser_name,
+    }
+      return obj
+      
+    })
+    setOptions(opts);
+  }, [Lasers])
+
+
     const dispatch = useDispatch();
     const dot = (color = 'transparent') => ({
         alignItems: 'center',
@@ -53,11 +69,9 @@ const AddEquipmentToClient = ({ open, onClose, customer_id}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const options = Lasers;
-
     const [formData, setFormData] = useState({
-        laser_id: options[0].id,
-        laser_name: options[0].value,
+        laser_id: Lasers[0].id,
+        laser_name: Lasers[0].laser_name,
         customer_name: '',
         city: '',
         address: '',
@@ -91,10 +105,8 @@ const AddEquipmentToClient = ({ open, onClose, customer_id}) => {
     };
 
 const handleSave = () => {
-    console.log('aquie ?')
     const errors = {};
     let isValid = true;
-    console.log('aqsrfwearwuie ?')
 
     // Check each field for empty values
     Object.keys(formData).forEach((key) => {

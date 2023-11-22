@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { apiSlice } from '../../redux/api/api-slice';
 
 export const initialState = { 
+  Lasers:[],
   currentMonthVisitCount: 0,
   lastMonthVisitCount: 0,
   newClients: 0,
@@ -12,6 +13,7 @@ const slice = 'dashboard';
 export const {
   endpoints,
   useReadDashboardInfoQuery,
+  useReadEquipmentsQuery,
 } = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     example: build.query({
@@ -19,6 +21,10 @@ export const {
     }),
     readDashboardInfo: build.query({
       query: (id) => `/dashboard/`,
+      providesTags: ['Laser'],
+    }),
+    readEquipments: build.query({
+      query: (id) => `/Laser/`,
       providesTags: ['Laser'],
     }),
   }),
@@ -38,6 +44,12 @@ export const { reducer, actions } = createSlice({
         state.currentMonthVisitCount = payload.currentMonthVisitCount
         state.lastMonthVisitCount = payload.lastMonthVisitCount
 
+    }
+    );
+    builder.addMatcher(
+      endpoints.readEquipments.matchFulfilled,
+      (state, { payload }) => {
+        state.Lasers = payload;
     }
     );
   },

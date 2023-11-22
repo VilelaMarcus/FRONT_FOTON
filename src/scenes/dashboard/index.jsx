@@ -1,29 +1,45 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
+import React, { useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import { tokens } from "../../theme";
-import { useAuth0 } from "@auth0/auth0-react";
-import { mockTransactions } from "../../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import BuildIcon from '@mui/icons-material/Build';
-import EmailIcon from "@mui/icons-material/Email";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import FlightIcon from '@mui/icons-material/Flight';
-import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
-import ProgressCircle from "../../components/ProgressCircle";
-import { useReadDashboardInfoQuery } from "./dashboardSlice";
-
-import { useDispatch, useSelector } from "react-redux";
+import { useReadDashboardInfoQuery, useReadEquipmentsQuery } from "./dashboardSlice";
+import { useNavigate } from 'react-router-dom';
+import EquipmentModal from './osModal'; 
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const colors = tokens(theme.palette.mode); 
   
+  const navigate = useNavigate();
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedEquipment, setSelectedEquipment] = useState('');
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleSelectEquipment = (equipment) => {
+    setSelectedEquipment(equipment);
+  };
+
+  const handleEditOS = () => {
+    setModalOpen(true);
+  };
+
+
   useReadDashboardInfoQuery();
+  useReadEquipmentsQuery();
   const {  currentMonthVisitCount, lastVists } = useSelector(state => state.dashboard);
 
   return (
@@ -89,6 +105,7 @@ const Dashboard = () => {
           >
             <Button
               style={{ textDecoration: 'none', color: 'inherit' }}
+              onClick={handleEditOS}
               fullWidth
             >
               <Box textAlign="center">
@@ -182,10 +199,13 @@ const Dashboard = () => {
               </Box>
             </Box>
           ))}
-        </Box>
-
-        
+        </Box>        
       </Box>
+      <EquipmentModal
+        isOpen={isModalOpen}
+        onRequestClose={handleCloseModal}
+        onSelectEquipment={handleSelectEquipment}
+      />
     </Box>
   );
 };
