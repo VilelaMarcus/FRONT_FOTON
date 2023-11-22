@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 import { TextField, Typography, Box, Paper, IconButton } from '@mui/material';
-import SaveIcon from '@mui/icons-material/Save';
+import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useReadOsByLaserIdQuery } from './osSlice';
 
@@ -12,8 +11,7 @@ const EditOS = ({ onUpdateOS, onDeleteOS }) => {
   const [editingOSId, setEditingOSId] = useState(null);
   const [editedDescription, setEditedDescription] = useState('');
   useReadOsByLaserIdQuery(equipmentId);
-  const osList = useSelector(state => state.os.osList);
-
+  const osList = useSelector((state) => state.os.osList);
 
   const handleEditClick = (osId, description) => {
     setEditingOSId(osId);
@@ -36,34 +34,43 @@ const EditOS = ({ onUpdateOS, onDeleteOS }) => {
       <Typography variant="h5" gutterBottom>
         Edit OS for Equipment {equipmentId}
       </Typography>
-      {osList && osList.map((os) => (
-        <Paper key={os.id} elevation={3} style={{ padding: 16, margin: 16 }}>
-          {editingOSId === os.id ? (
-            <Box display="flex" alignItems="center">
-              <TextField
-                label="Description"
-                value={editedDescription}
-                onChange={(e) => setEditedDescription(e.target.value)}
-                fullWidth
-                margin="dense"
-              />
-              <IconButton color="primary" onClick={handleSaveClick}>
-                <SaveIcon />
-              </IconButton>
-            </Box>
-          ) : (
-            <Box display="flex" alignItems="center">
-              <Typography>{os.description}</Typography>
-              <IconButton color="primary" onClick={() => handleEditClick(os.id, os.description)}>
-                <SaveIcon />
-              </IconButton>
-            </Box>
-          )}
-          <IconButton color="secondary" onClick={() => handleDeleteClick(os.id)}>
-            <DeleteIcon />
-          </IconButton>
-        </Paper>
-      ))}
+      {osList &&
+        osList.map((os) => (
+          <Paper
+            key={os.id}
+            elevation={3}
+            style={{ padding: 16, margin: 16, background: '#748CAB' }}
+          >
+            {editingOSId === os.id ? (
+              <Box display="flex" flexDirection="column" alignItems="flex-start">
+                <TextField
+                  label="Description"
+                  value={editedDescription}
+                  onChange={(e) => setEditedDescription(e.target.value)}
+                  fullWidth
+                  margin="dense"
+                />
+                <Box marginTop={1}>
+                  <IconButton color="primary" onClick={handleSaveClick}>
+                    <EditIcon />
+                  </IconButton>
+                </Box>
+              </Box>
+            ) : (
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography>{os.description}</Typography>
+                <Box>
+                  <IconButton color="primary" onClick={() => handleEditClick(os.id, os.description)}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton color="secondary" onClick={() => handleDeleteClick(os.id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              </Box>
+            )}
+          </Paper>
+        ))}
     </div>
   );
 };
