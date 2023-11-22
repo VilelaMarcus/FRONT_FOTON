@@ -24,6 +24,7 @@ import { Provider } from 'react-redux';
 import { useStore } from './redux/store';
 import Custumer from "./scenes/customers";
 import Owners from "./scenes/onwers";
+import EditOS from "./scenes/dashboard/OS/EditOs";
 // import Calendar from "./scenes/calendar/calendar";
 
 function App() {
@@ -48,9 +49,9 @@ function App() {
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <div className="app">
+          <div className="app" style={{ display: 'flex' }}>
             <Sidebar isSidebar={isSidebar} />
-            <main className="content">
+            <main className="content" style={{ padding: '16px', overflowY: 'auto', height: '100vh' }}>
               <Topbar setIsSidebar={setIsSidebar} />
               <Routes>
                 <Route path="/" element={<Dashboard />} />
@@ -61,10 +62,7 @@ function App() {
                 <Route path="/laser-sigth" element={<LaserSigth />} />
                 <Route path="/customer" element={<Owners />} />
                 <Route path="/aparelho" element={<Custumer />} />
-                {/* <Route path="/line" element={<Line />} /> */}
-                {/* <Route path="/faq" element={<FAQ />} /> */}
-                {/* <Route path="/calendar" element={<Calendar />} /> */}
-                {/* <Route path="/geography" element={<Geography />} /> */}
+                <Route path="/edit-os/:equipmentId" element={<EditOS />} />
               </Routes>
             </main>
           </div>

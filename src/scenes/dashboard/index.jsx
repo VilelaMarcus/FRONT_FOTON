@@ -10,7 +10,7 @@ import LineChart from "../../components/LineChart";
 import StatBox from "../../components/StatBox";
 import { useReadDashboardInfoQuery, useReadEquipmentsQuery } from "./dashboardSlice";
 import { useNavigate } from 'react-router-dom';
-import EquipmentModal from './osModal'; 
+import EquipmentModal from './OS/osModal'; 
 import { useSelector } from "react-redux";
 
 const Dashboard = () => {

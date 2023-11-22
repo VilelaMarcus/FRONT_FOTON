@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Select, MenuItem, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 const EquipmentModal = ({ isOpen, onRequestClose, onSelectEquipment }) => {
   const theme = useTheme();
@@ -10,6 +11,9 @@ const EquipmentModal = ({ isOpen, onRequestClose, onSelectEquipment }) => {
   const handleEquipmentChange = (event) => {
     setSelectedEquipment(event.target.value);
   };
+
+  
+  const { Lasers } = useSelector(state => state.dashboard);
 
   const handleProceed = () => {
     if (selectedEquipment) {
@@ -23,17 +27,17 @@ const EquipmentModal = ({ isOpen, onRequestClose, onSelectEquipment }) => {
 
   return (
     <Dialog open={isOpen} onClose={onRequestClose} fullWidth maxWidth="xs" PaperProps={{ style: { backgroundColor: theme.palette.primary.main } }}>
-      <DialogTitle>Choose Equipment</DialogTitle>
+      <DialogTitle>Escolha o Equipamento</DialogTitle>
       <DialogContent>
         <Select value={selectedEquipment} onChange={handleEquipmentChange} fullWidth style={{ color: theme.palette.primary.contrastText }}>
-          <MenuItem value="equipment1">Equipment 1</MenuItem>
-          <MenuItem value="equipment2">Equipment 2</MenuItem>
-          {/* Add more options as needed */}
+          {Lasers.map(equipment => {         
+            return (<MenuItem key={equipment.id} value={equipment.id}>{equipment.laser_name}</MenuItem>)
+          })}
         </Select>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleProceed} style={{ backgroundColor: theme.palette.secondary.main, color: theme.palette.secondary.contrastText }}>
-          Proceed to Edit OS
+          Editar OS
         </Button>
       </DialogActions>
     </Dialog>
