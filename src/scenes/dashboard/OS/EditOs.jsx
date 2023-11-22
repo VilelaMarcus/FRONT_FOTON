@@ -25,10 +25,6 @@ const EditOS = ({ onUpdateOS, onDeleteOS }) => {
     }
   };
 
-  const handleDeleteClick = (osId) => {
-    onDeleteOS(osId);
-  };
-
   return (
     <div>
       <Typography variant="h5" gutterBottom>
