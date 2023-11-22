@@ -16,7 +16,7 @@ export const {
       providesTags: ['laserOfCustomer'],
     }),
     readCustomerVisitMeasurementByCustomerId: build.query({
-      query: (id) => `/custumerMeasurement/customerId/${id}`,
+      query: (id) => `/customerMeasurement/customerId/${id}`,
       providesTags: ['custmer-visit-measurement'],
     }),    
   }),

@@ -23,16 +23,16 @@ export const {
       query: () => 'test',
     }),
     readVisitCustumerByLaserId: build.query({
-      query: (id) => `/custumerMeasurement/${id}`,
+      query: (id) => `/customerMeasurement/${id}`,
       providesTags: ['Laser'],
     }),
     readVisitCustumerByLaserName: build.query({
-      query: (name) => `/custumerMeasurement/${name}`,
+      query: (name) => `/customerMeasurement/${name}`,
     }),
     updateVisitMeasurement: build.mutation({
       query: (body) => {
         return {
-          url: `/custumerMeasurement/${body.id}`,
+          url: `/customerMeasurement/${body.id}`,
           method: 'PATCH',
           body,
         };
