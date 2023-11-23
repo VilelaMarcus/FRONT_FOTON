@@ -38,6 +38,11 @@ const EditOS = ({ onUpdateOS, onDeleteOS }) => {
     setEditedDescription(description);
   };
 
+  const handleDeleteClick = (osId) => {
+    onDeleteOS(osId);
+  };
+
+
   const handleSaveClick = () => {
     if (editingOSId !== null) {
       onUpdateOS(editingOSId, editedDescription);
