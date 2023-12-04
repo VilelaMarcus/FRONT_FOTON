@@ -1,37 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import { tokens } from "../../../theme";
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { TextField, Typography, Box, Paper, IconButton, Button } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { TextField, Typography, Box, Paper, IconButton, Button, useTheme } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useReadOsByLaserIdQuery } from './osSlice';
+import { useReadOsByLaserIdQuery, useAddNewOsMutation, useDeleteOsMutation, useEditOsMutation, actions } from './osSlice';
+import { v4 as uuidv4 } from 'uuid'; 
 
-const EditOS = ({ onUpdateOS, onDeleteOS }) => {
-  const { equipmentId } = useParams();
+const EditOS = () => {  
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode); 
+
+  const dispatch = useDispatch();
+  const { equipmentId } = useParams();  
+  const [addNewOS] = useAddNewOsMutation();
+  const [onUpdateOS] = useEditOsMutation();
+  const [onDeleteOS] = useDeleteOsMutation();
   const [editingOSId, setEditingOSId] = useState(null);
   const [editedDescription, setEditedDescription] = useState('');
   const editRef = useRef(null);
   useReadOsByLaserIdQuery(equipmentId);
   const osList = useSelector((state) => state.os.osList);
+  const Lasers = useSelector((state) => state.dashboard.Lasers);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (editRef.current && !editRef.current.contains(event.target)) {
-        // Check if the click is on the edit button
-        const isEditButton = event.target.closest('.edit-button');
-        if (!isEditButton) {
-          setEditingOSId(null);
-        }
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
+  const LaserName = Lasers.find(e => e.id === equipmentId)
+  console.log({osList});
+  console.log({editingOSId});
 
   const handleEditClick = (osId, description) => {
     setEditingOSId(osId);
@@ -40,21 +37,59 @@ const EditOS = ({ onUpdateOS, onDeleteOS }) => {
 
   const handleDeleteClick = (osId) => {
     onDeleteOS(osId);
+    dispatch(actions.removeOs(osId)) 
   };
 
+  const addOsHandler = () => {      
+    const id = uuidv4();  
+      const payload = {
+        id: id,
+        laser_id: equipmentId,
+        description: ' ',
+        type: 'Text'
+      }
+    dispatch(actions.addOsOnList(payload)) 
+    addNewOS(payload);
+    setEditingOSId(id);
+  }
+
+  const handleCancelClick = () => {
+    setEditedDescription('');
+    setEditingOSId(null);
+  };
 
   const handleSaveClick = () => {
     if (editingOSId !== null) {
-      onUpdateOS(editingOSId, editedDescription);
+      onUpdateOS({ id: editingOSId, body: {
+        description: editedDescription,
+      }});
+      dispatch(actions.editOs({ id: editingOSId, description: editedDescription }));
+      setEditedDescription('');     
       setEditingOSId(null);
     }
   };
 
   return (
     <div>
-      <Typography variant="h5" gutterBottom>
-        Editando OS DO Equipamento {equipmentId}
-      </Typography>
+      <Box sx={{ display: 'flex',  justifyContent: 'space-between'}}>
+        <Typography variant="h4" gutterBottom>
+          Editando OS do equipamento {LaserName?.laser_name}
+        </Typography> 
+        <Box>
+          <Button
+            sx={{
+              backgroundColor: colors.blueAccent[700],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+            }}
+            onClick={addOsHandler}
+          >
+            Adicionar novo Iten na OS.
+          </Button>
+        </Box>
+      </Box>
       {osList &&
         osList.map((os) => (
           <Paper
@@ -73,6 +108,16 @@ const EditOS = ({ onUpdateOS, onDeleteOS }) => {
                   inputProps={{ style: { fontSize: '18px', color: '#fff' } }}
                 />
                 <Box mt={2}>
+                <Button
+                    className="edit-button"
+                    variant="contained"
+                    color="primary"
+                    style={{ marginRight: 8 }}
+                    endIcon={<CloseIcon />}
+                    onClick={handleCancelClick}
+                  >
+                    Cancelar
+                  </Button>
                   <Button
                     className="edit-button"
                     variant="contained"

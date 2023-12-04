@@ -36,9 +36,9 @@ export const {
       },
     }),    
     editOs: build.mutation({
-      query: (body) => {
+      query: ({id, body}) => {
         return {
-          url: `/laserOfCustomer/`,
+          url: `/os/${id}`,
           method: 'PUT',
           body,
         };
@@ -52,7 +52,25 @@ export const { reducer, actions } = createSlice({
   name: slice,
   initialState,
   reducers: {
-   
+    addOsOnList: (state, { payload }) => {      
+      state.osList.unshift(payload);
+    }, 
+    removeOs: (state, { payload }) => {      
+      state.osList = state.osList.filter(os => os.id !== payload);
+    },
+    updateOsList: (state, { payload }) => {
+      const keys = Object.keys(payload);
+      const array = state.allegretto
+      state.allegretto = state.allegretto.map(e => {
+        if(e.id === payload.id) {
+          const obj = { ...e, [keys[2]]: payload[keys[2]]}         
+          return obj;
+        }
+        else {
+          return e;
+        }
+      });
+    },
   },
   extraReducers(builder) {
     builder.addMatcher(
