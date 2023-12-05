@@ -41,7 +41,7 @@ export const {
     createVisitMeasurement: build.mutation({
       query: (body) => {
         return {
-          url: `/custumerMeasurement/`,
+          url: `/customerMeasurement/`,
           method: 'POST',
           body,
         };

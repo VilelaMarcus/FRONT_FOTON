@@ -58,12 +58,17 @@ export const { reducer, actions } = createSlice({
     removeOs: (state, { payload }) => {      
       state.osList = state.osList.filter(os => os.id !== payload);
     },
-    updateOsList: (state, { payload }) => {
+    updateOsListDescription: (state, { payload }) => {
+      
       const keys = Object.keys(payload);
-      const array = state.allegretto
-      state.allegretto = state.allegretto.map(e => {
+      console.log('updateOsList');
+      console.log('updateOsList');
+      console.log('updateOsList');
+      console.log({payload});
+      console.log({keys});
+      state.osList = state.osList.map(e => {
         if(e.id === payload.id) {
-          const obj = { ...e, [keys[2]]: payload[keys[2]]}         
+          const obj = { ...e, [keys[1]]: payload[keys[1]]}         
           return obj;
         }
         else {

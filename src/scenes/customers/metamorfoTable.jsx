@@ -1,16 +1,26 @@
 import { Box } from "@mui/system";
-
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import { useDispatch, useSelector } from "react-redux";
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useTheme } from "@mui/material";
-
+import {
+  GridToolbarContainer,
+} from '@mui/x-data-grid';
 import calculateDaysPassedFromDate from '../../utils/dateUltils';
 
+import { v4 as uuidv4 } from 'uuid'; 
 import { tokens } from "../../theme";
-import {  useReadCustomerVisitMeasurementByCustomerIdQuery } from "./customerSlicer";
+import {  useReadCustomerVisitMeasurementByCustomerIdQuery, actions } from "./customerSlicer";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { columnsAllegreto, columnsConstellation, columnsVisx, columnsIntralaser, columnsLaserSigth } from '../../data/mockColums.js';
- 
+import { useCreateVisitMeasurementMutation } from "../lasers/custumerVisitMeasurementSlicer.js";
+import { useReadEquipmentsQuery } from "../dashboard/dashboardSlice.js";
+
 
 const override = {
   display: "block",
@@ -20,26 +30,27 @@ const override = {
   margin: "0 auto",
 };
 
-const MetamorfTable = ({customer}) => {    
-    console.log({customer});
-    const [laserName, setLaserName] =  useState('');
-    const [columns, setColumns] =  useState([]);
-    const [rows, setRows] = useState([]);
+const MetamorfTable = ({customer}) => {
+  useReadEquipmentsQuery();
+  const [columns, setColumns] =  useState([]);
+  const [rows, setRows] = useState([]);
+  const dispatch = useDispatch();    
+  const [createNewRecordOfVisit] = useCreateVisitMeasurementMutation();
+  
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const { data, isLoading } = useReadCustomerVisitMeasurementByCustomerIdQuery(customer.id);    
+  const lasers = useSelector((state) => state.dashboard.Lasers);
+  
+  const laserName = lasers?.find(laser => laser.id === customer.laser_id)?.laser_name;
 
-
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const { data, isLoading } = useReadCustomerVisitMeasurementByCustomerIdQuery(customer.id);
-    
-    console.log({data})
-    useEffect(() => {
+  useEffect(() => {
       if (data && data.length >= 1) {
-        setLaserName(data[0].laser_name);
         setRows(Object.values(data))
       }
     }, [data]);
-    
-    useEffect(() => {
+  
+  useEffect(() => {
       
       switch (laserName) {
         case 'Allegretto':
@@ -48,7 +59,7 @@ const MetamorfTable = ({customer}) => {
         case 'Visx':
           setColumns(columnsVisx);
           break;
-        case 'LaserSight':
+          case 'LaserSight':
           setColumns(columnsLaserSigth);
           break;
         case 'Intralaser':
@@ -56,25 +67,53 @@ const MetamorfTable = ({customer}) => {
           break;
         case 'Constellation':
           setColumns(columnsConstellation);
-            break;
-        default:
-    }        
-}, [laserName]);
-
+          break;
+          default:
+    }
+  }, [laserName]);
 
   const rowsToDisplay = rows.map((measure, index) => {
     const transformedItem = {};
 
     for (const key in measure) {
       transformedItem[key] = measure[key] !== undefined && measure[key] !== null && measure[key] !== '' ? measure[key] : '-';
-    }    
-    transformedItem["days"] = calculateDaysPassedFromDate(measure?.date);
-
+    }
+    measure?.date ? transformedItem["days"] = calculateDaysPassedFromDate(measure?.date) : transformedItem["days"] = '-';
+    
     return transformedItem;
   })
+  
+  console.log({columns});
+  console.log({customer});
 
-  console.log({columns})
-  console.log({rowsToDisplay})
+
+  function EditToolbar() {  
+    const handleClick = () => {
+      const fields = columns.map(item => item.field);
+
+      const newObject = {};
+      fields.forEach(field => {
+        newObject[field] = null; 
+      });
+
+      newObject.id = uuidv4();
+      newObject.laser_of_customer_id = customer.id;
+      newObject.customer_name = customer.customer_name;
+
+      console.log({newObject}); 
+      
+      setRows([...rows, newObject]);
+      createNewRecordOfVisit(newObject);      
+    };
+  
+    return (
+      <GridToolbarContainer>
+        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+          Addicionr visita
+        </Button>
+      </GridToolbarContainer>
+    );
+  }
 
     return(
       <Box
@@ -84,7 +123,7 @@ const MetamorfTable = ({customer}) => {
           "& .MuiDataGrid-root": {
             border: "none",
             fontSize: "16px",
-          }, 
+          },
             '& .super-app.negative': {
             backgroundColor: '#FFE66D',
             color: '#1a3e72',
@@ -128,11 +167,14 @@ const MetamorfTable = ({customer}) => {
             aria-label="Loading Spinner"
             data-testid="loader"
           />
-        {!isLoading && 
+        {!isLoading &&
           <DataGrid
             rows={rowsToDisplay}
             columns={columns}
-            components={{ Toolbar: GridToolbar }}
+            components={{ Toolbar: EditToolbar }}
+            // slots={{
+            //   toolbar: EditToolbar,
+            // }}
           />
         }
       </Box>

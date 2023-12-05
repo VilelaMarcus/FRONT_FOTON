@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { apiSlice } from '../../redux/api/api-slice';
 
-export const initialState = { list: [], };
+export const initialState = { 
+  list: [],
+  customerVisit : [],	
+ };
 const slice = 'customers';
 
 export const {

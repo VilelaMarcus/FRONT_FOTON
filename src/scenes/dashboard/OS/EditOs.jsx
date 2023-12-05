@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { tokens } from "../../../theme";
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import MenuItem from '@mui/material/MenuItem'; 
 import { TextField, Typography, Box, Paper, IconButton, Button, useTheme } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
@@ -19,9 +20,11 @@ const EditOS = () => {
   const [addNewOS] = useAddNewOsMutation();
   const [onUpdateOS] = useEditOsMutation();
   const [onDeleteOS] = useDeleteOsMutation();
+
   const [editingOSId, setEditingOSId] = useState(null);
+  const [editedType, setEditedType] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
-  const editRef = useRef(null);
+
   useReadOsByLaserIdQuery(equipmentId);
   const osList = useSelector((state) => state.os.osList);
   const Lasers = useSelector((state) => state.dashboard.Lasers);
@@ -30,9 +33,10 @@ const EditOS = () => {
   console.log({osList});
   console.log({editingOSId});
 
-  const handleEditClick = (osId, description) => {
+  const handleEditClick = (osId, description, type) => {
     setEditingOSId(osId);
     setEditedDescription(description);
+    setEditedType(type);
   };
 
   const handleDeleteClick = (osId) => {
@@ -58,12 +62,13 @@ const EditOS = () => {
     setEditingOSId(null);
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = () => {    
     if (editingOSId !== null) {
+      console.log("handleSaveClick");
       onUpdateOS({ id: editingOSId, body: {
         description: editedDescription,
       }});
-      dispatch(actions.editOs({ id: editingOSId, description: editedDescription }));
+      dispatch(actions.updateOsListDescription({ id: editingOSId, description: editedDescription }));
       setEditedDescription('');     
       setEditingOSId(null);
     }
@@ -98,7 +103,7 @@ const EditOS = () => {
             style={{ padding: 16, margin: 16, background: '#748CAB' }}
           >
             {editingOSId === os.id ? (
-              <Box ref={editRef} display="flex" flexDirection="column" alignItems="flex-end">
+              <Box display="flex" flexDirection="column" alignItems="flex-end">
                 <TextField
                   label="Descrição"
                   value={editedDescription}
@@ -107,6 +112,18 @@ const EditOS = () => {
                   margin="dense"
                   inputProps={{ style: { fontSize: '18px', color: '#fff' } }}
                 />
+                <TextField
+                  select
+                  label="Type"
+                  value={editedType || os.type} 
+                  onChange={(e) => setEditedType(e.target.value)}
+                  fullWidth
+                  margin="dense"
+                  inputProps={{ style: { fontSize: '18px', color: '#fff' } }}
+                >
+                  <MenuItem value="Text">Text</MenuItem>
+                  <MenuItem value="ChekBox">Checkbox</MenuItem>
+                </TextField>
                 <Box mt={2}>
                 <Button
                     className="edit-button"

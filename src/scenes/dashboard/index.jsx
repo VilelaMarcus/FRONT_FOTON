@@ -68,7 +68,6 @@ const Dashboard = () => {
             title={currentMonthVisitCount}
             subtitle="Visitas feitas"
             progress="0.75"
-            increase="+14%"
             icon={
               <FlightIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -87,7 +86,6 @@ const Dashboard = () => {
             title="2"
             subtitle="Novos Clientes"
             progress="0.30"
-            increase="+2%"
             icon={
               <PersonAddIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
