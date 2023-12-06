@@ -33,7 +33,7 @@ const Visx = () => {
     for (const key in measure) {
       transformedItem[key] = measure[key] !== undefined && measure[key] !== null && measure[key] !== '' ? measure[key] : '-';
     }    
-    transformedItem["days"] = calculateDaysPassedFromDate(measure.date);
+    measure?.date ? transformedItem["days"] = calculateDaysPassedFromDate(measure?.date) : transformedItem["days"] = '-';
 
     return transformedItem;
   })
