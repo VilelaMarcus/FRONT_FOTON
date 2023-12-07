@@ -166,7 +166,7 @@ const Dashboard = () => {
               Ultimas Visitas
             </Typography>
           </Box>
-          {lastVists.map((visit, i) => (
+          {lastVists && lastVists.map((visit, i) => (
             <Box
               key={`${visit.customer_name}` + i}
               display="flex"
