@@ -17,7 +17,7 @@ const AddEquipmentToClient = ({ open, onClose, customer_id}) => {
 
     
   useEffect(() => {
-    const opts = Lasers.map((e) => {
+    const opts = Lasers && Lasers.map((e) => {
       const obj ={ 
         id: e.id,
         value : e.laser_name,
