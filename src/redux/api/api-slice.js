@@ -10,7 +10,7 @@ export const apiSlice = createApi({
   ],
   baseQuery: fetchBaseQuery({
     mode: 'cors',
-    baseUrl: process.env.API_URL,
+    baseUrl: process.env.REACT_APP_API_URL,
     // prepareHeaders: (headers, { getState }) => {
     //   const state = getState();
     //   const { token } = state.userAuthentication;

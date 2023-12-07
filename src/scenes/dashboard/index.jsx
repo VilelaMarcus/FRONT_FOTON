@@ -17,7 +17,7 @@ const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode); 
   
-  console.log('dashboard', process.env.API_URL);
+  console.log('dashboard', process.env.REACT_APP_API_URL);
 
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
