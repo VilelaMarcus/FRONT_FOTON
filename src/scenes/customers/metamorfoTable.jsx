@@ -20,7 +20,14 @@ import { ClipLoader } from "react-spinners";
 import { columnsAllegreto, columnsConstellation, columnsVisx, columnsIntralaser, columnsLaserSigth } from '../../data/mockColums.js';
 import { useCreateVisitMeasurementMutation } from "../lasers/custumerVisitMeasurementSlicer.js";
 import { useReadEquipmentsQuery } from "../dashboard/dashboardSlice.js";
+import MenuContext from "./MenuContext/index.jsx";
+import { Delete } from "@mui/icons-material";
 
+const initialContextMenu = {
+  show: false,
+  idCustomerVisit: '',
+  y:0,
+}
 
 const override = {
   display: "block",
@@ -34,7 +41,8 @@ const MetamorfTable = ({customer}) => {
   useReadEquipmentsQuery();
   const [columns, setColumns] =  useState([]);
   const [rows, setRows] = useState([]);
-  const dispatch = useDispatch();    
+  
+  const [contextMenu, setContextMenu] = useState(initialContextMenu);
   const [createNewRecordOfVisit] = useCreateVisitMeasurementMutation();
   
   const theme = useTheme();
@@ -83,9 +91,26 @@ const MetamorfTable = ({customer}) => {
     return transformedItem;
   })
   
-  console.log({columns});
-  console.log({customer});
+  const onContextMenu = (e) => {
+    e.preventDefault();
+    console.log(e.target);
+    let target = e.target.innerHTML;
+    const { pageY } = e;
 
+    setContextMenu({
+      show: false,
+    })    
+   
+    console.log(target);
+    setContextMenu({
+      show: true,
+      customerName: target,
+      y: pageY,
+    })
+      
+    
+      
+  };
 
   function EditToolbar() {  
     const handleClick = () => {
@@ -110,6 +135,9 @@ const MetamorfTable = ({customer}) => {
       <GridToolbarContainer>
         <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
           Addicionr visita
+        </Button>
+        <Button color="primary" startIcon={<Delete />} onClick={handleClick}>
+          Deletar visita
         </Button>
       </GridToolbarContainer>
     );
@@ -158,6 +186,8 @@ const MetamorfTable = ({customer}) => {
             color: `${colors.grey[100]} !important`,
           },
         }}
+        onClick={() => setContextMenu({show: false })}
+        onContextMenu={onContextMenu}
       >
         <ClipLoader
             loading={isLoading}
@@ -172,11 +202,12 @@ const MetamorfTable = ({customer}) => {
             rows={rowsToDisplay}
             columns={columns}
             components={{ Toolbar: EditToolbar }}
-            // slots={{
-            //   toolbar: EditToolbar,
-            // }}
+            checkboxSelection            
+            onSelectionModelChange={itm => console.log(itm)}
+            disableRowSelectionOnClick
           />
         }
+        {contextMenu.show && <MenuContext y={contextMenu.y} idCustomerVisit={contextMenu.idCustomerVisit} />}
       </Box>
     );
 }

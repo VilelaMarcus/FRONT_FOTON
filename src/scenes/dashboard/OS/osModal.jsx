@@ -30,9 +30,9 @@ const EquipmentModal = ({ isOpen, onRequestClose, onSelectEquipment }) => {
       <DialogTitle>Escolha o Equipamento</DialogTitle>
       <DialogContent>
         <Select value={selectedEquipment} onChange={handleEquipmentChange} fullWidth style={{ color: theme.palette.primary.contrastText }}>
-          {/* {Lasers?.map(equipment => {         
+          {Lasers ? (Lasers?.map(equipment => {         
             return (<MenuItem key={equipment.id} value={equipment.id}>{equipment.laser_name}</MenuItem>)
-          })} */}
+          })) : null }
         </Select>
       </DialogContent>
       <DialogActions>

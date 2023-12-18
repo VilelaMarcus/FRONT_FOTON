@@ -16,6 +16,7 @@ export const {
   useReadVisitCustumerByLaserNameQuery,
   useCreateVisitMeasurementMutation,
   useUpdateVisitMeasurementMutation,
+  useDeleteVisitMeasurementMutation,
   useReadAwardsQuery,
 } = apiSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -47,6 +48,14 @@ export const {
         };
       },
     }),
+    deleteVisitMeasurement: build.mutation({
+      query: (id) => {
+        return {
+          url: `/customerMeasurement/${id}`,
+          method: 'DELETE',
+        };
+      },
+    }), 
   }),
   overrideExisting: false,
 })
