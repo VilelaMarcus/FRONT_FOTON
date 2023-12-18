@@ -18,7 +18,7 @@ import {  useReadCustomerVisitMeasurementByCustomerIdQuery, actions } from "./cu
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { columnsAllegreto, columnsConstellation, columnsVisx, columnsIntralaser, columnsLaserSigth } from '../../data/mockColums.js';
-import { useCreateVisitMeasurementMutation } from "../lasers/custumerVisitMeasurementSlicer.js";
+import { useCreateVisitMeasurementMutation, useDeleteVisitMeasurementMutation } from "../lasers/custumerVisitMeasurementSlicer.js";
 import { useReadEquipmentsQuery } from "../dashboard/dashboardSlice.js";
 import MenuContext from "./MenuContext/index.jsx";
 import { Delete } from "@mui/icons-material";
@@ -37,14 +37,35 @@ const override = {
   margin: "0 auto",
 };
 
+
+const styleWarning = {
+  position: 'fixed', // Fixed the typo here
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  backgroundColor: 'rgba(255, 255, 255)',
+  color: 'black',
+  padding: '20px',
+  borderRadius: '8px',
+  display: 'flex',
+  flexDirection: 'row',
+  flex: 1,
+  justifyContent: 'center',
+  zIndex: 10000,
+};
+
 const MetamorfTable = ({customer}) => {
   useReadEquipmentsQuery();
   const [columns, setColumns] =  useState([]);
   const [rows, setRows] = useState([]);
-  
+  const [selectId, setId] = useState([]);
+  console.log({selectId});  
+
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
   const [createNewRecordOfVisit] = useCreateVisitMeasurementMutation();
-  
+  const [deleteRecordOfVisit, { isSuccess }] = useDeleteVisitMeasurementMutation();  
+  const [showAlert, setShowAlert] = useState(false);
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { data, isLoading } = useReadCustomerVisitMeasurementByCustomerIdQuery(customer.id);    
@@ -100,16 +121,13 @@ const MetamorfTable = ({customer}) => {
     setContextMenu({
       show: false,
     })    
-   
-    console.log(target);
+
     setContextMenu({
       show: true,
       customerName: target,
       y: pageY,
-    })
-      
+    })  
     
-      
   };
 
   function EditToolbar() {  
@@ -131,16 +149,34 @@ const MetamorfTable = ({customer}) => {
       createNewRecordOfVisit(newObject);      
     };
   
+    const handleDelete = () => {
+      if(selectId.length === 1) {
+        const newRows = rows.filter(row => !selectId.includes(row.id));
+        setRows(newRows);
+        deleteRecordOfVisit(selectId);
+      } else {
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000); 
+      }
+
+    };
+  
     return (
       <GridToolbarContainer>
         <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
           Addicionr visita
         </Button>
-        <Button color="primary" startIcon={<Delete />} onClick={handleClick}>
+        <Button color="primary" startIcon={<Delete />} onClick={handleDelete}>
           Deletar visita
         </Button>
       </GridToolbarContainer>
     );
+  }
+
+  const handleSelection = (itm) => {
+    setId(itm);   
   }
 
     return(
@@ -189,6 +225,16 @@ const MetamorfTable = ({customer}) => {
         onClick={() => setContextMenu({show: false })}
         onContextMenu={onContextMenu}
       >
+        {showAlert && (
+          <div style={styleWarning}> 
+            Favor deletar uma visita por vez
+          </div>
+        )}
+        {isSuccess && (
+          <div style={styleWarning}> 
+            Visita deletada com sucesso
+          </div>
+        )}
         <ClipLoader
             loading={isLoading}
             color="white"
@@ -203,7 +249,7 @@ const MetamorfTable = ({customer}) => {
             columns={columns}
             components={{ Toolbar: EditToolbar }}
             checkboxSelection            
-            onSelectionModelChange={itm => console.log(itm)}
+            onSelectionModelChange={itm => handleSelection(itm)}
             disableRowSelectionOnClick
           />
         }
