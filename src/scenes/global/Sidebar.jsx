@@ -97,10 +97,10 @@ const Sidebar = () => {
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user"
-                  width="100px"
+                  width="200px"
                   height="100px"
-                  src={`../../assets/FABIO.png`}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
+                  src={`../../assets/logo.png`}
+                  style={{ cursor: "pointer", borderRadius: "20%" }}
                 />
               </Box>
               <Box textAlign="center">
