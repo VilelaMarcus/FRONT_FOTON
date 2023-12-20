@@ -115,7 +115,7 @@ const Dashboard = () => {
             </Button>
         </Box>
         {/* ROW 2 */}
-        <Box
+        {/* <Box
           gridColumn="span 8"
           gridRow="span 3"
           backgroundColor={colors.primary[400]}
@@ -144,12 +144,12 @@ const Dashboard = () => {
               </Typography>
             </Box>
           </Box>
-          <Box height="250px" m="-20px 0 0 0">
+          <Box height="260px" m="-20px 0 0 0">
             <LineChart isDashboard={true} />
           </Box>
-        </Box>
+        </Box> */}
         <Box
-          gridColumn="span 4"
+          gridColumn="span 12"
           gridRow="span 3"
           backgroundColor={colors.primary[400]}
           overflow="auto"

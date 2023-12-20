@@ -12,12 +12,22 @@ const slice = 'dashboard';
 
 export const {
   endpoints,
+  useCreateEquipmentMutation,
   useReadDashboardInfoQuery,
   useReadEquipmentsQuery,
 } = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     example: build.query({
       query: () => 'test',
+    }),
+    createEquipment: build.mutation({
+      query: (body) => {
+        return {
+          url: `/laser/`,
+          method: 'POST',
+          body,
+        };
+      },
     }),
     readDashboardInfo: build.query({
       query: (id) => `/dashboard/`,
@@ -35,7 +45,11 @@ export const {
 export const { reducer, actions } = createSlice({
   name: slice,
   initialState,
-  reducers: { },
+  reducers: {
+    addEquipment: (state, { payload }) => {
+      state.Lasers.push(payload);
+    },
+   },
   extraReducers(builder) {
     builder.addMatcher(
       endpoints.readDashboardInfo.matchFulfilled,

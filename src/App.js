@@ -25,6 +25,7 @@ import { useStore } from './redux/store';
 import Custumer from "./scenes/customers";
 import Owners from "./scenes/onwers";
 import EditOS from "./scenes/dashboard/OS/EditOs";
+import Equipments from "./scenes/equipamentos";
 // import Calendar from "./scenes/calendar/calendar";
 
 function App() {
@@ -35,12 +36,9 @@ function App() {
   
   const { user, isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
 
-  console.log({isAuthenticated})
-  console.log({isLoading})
-  console.log({user})
 
   if (!isAuthenticated && !isLoading) {
-    loginWithRedirect();
+  loginWithRedirect();
   }
 
 
@@ -61,7 +59,8 @@ function App() {
                 <Route path="/intralaser" element={<Intrelaser />} />
                 <Route path="/laser-sigth" element={<LaserSigth />} />
                 <Route path="/customer" element={<Owners />} />
-                <Route path="/aparelho" element={<Custumer />} />
+                <Route path="/visitas" element={<Custumer />} />
+                <Route path="/aparelho" element={<Equipments />} />
                 <Route path="/edit-os/:equipmentId" element={<EditOS />} />
               </Routes>
             </main>

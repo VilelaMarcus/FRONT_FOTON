@@ -6,7 +6,7 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
+import HandymanIcon from '@mui/icons-material/Handyman';
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import Filter1OutlinedIcon from '@mui/icons-material/Filter1Outlined';
 import Filter2OutlinedIcon from '@mui/icons-material/Filter2Outlined';
@@ -110,10 +110,10 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Fabio Vilela
+                  Foton Tecnologia
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  CEO 
+                  LTDA 
                 </Typography>
               </Box>
             </Box>
@@ -133,7 +133,7 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Gerenciamento
+              Geral
             </Typography>
             <Item
               title="Cliente"
@@ -144,12 +144,18 @@ const Sidebar = () => {
             />
             <Item
               title="Visitas / Cidades"
-              to="/aparelho"
+              to="/visitas"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-
+            <Item
+              title="Equipamentos"
+              to="/aparelho"
+              icon={<HandymanIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
             <Typography
               variant="h6"
