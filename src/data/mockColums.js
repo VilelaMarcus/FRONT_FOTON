@@ -1,8 +1,13 @@
 import clsx from 'clsx';
 
 const slotColumnCommonFields = {
-    maxWidth: 200,
-    minWidth: 100,
+    maxWidth: 70,
+    minWidth: 70,
+};
+
+const slotDataFields = {
+  maxWidth: 100,
+  minWidth: 100,
 };
 
 export const columnsAllegreto = [
@@ -11,13 +16,14 @@ export const columnsAllegreto = [
         headerClassName: 'super-app-theme--fixed',
         cellClassName: 'super-app-theme--fixed',
         headerName: "Cliente",
-        ...slotColumnCommonFields
+        maxWidth: 100,
+        minWidth: 100,
     },
     { 
         field: "date",
         editable: true,
         headerName: "Data",
-        ...slotColumnCommonFields
+        ...slotDataFields
     },
     {
       field: "days",
@@ -25,6 +31,7 @@ export const columnsAllegreto = [
       headerName: "Days",
       flex: 1,
       minWidth: 50,
+      maxWidth: 50,
       background: "red",
       cellClassName: (params) => {
         if (params.value == null) {
@@ -69,7 +76,7 @@ export const columnsAllegreto = [
     {
       field: "arfChange",
       editable: true,
-      ...slotColumnCommonFields,
+      ...slotDataFields,
       headerName: "Troca Arf",
       flex: 1,
     },
@@ -116,7 +123,7 @@ export const columnsAllegreto = [
       flex: 1,
     },
     {
-      ...slotColumnCommonFields,
+      ...slotDataFields,
       field: "e1",
       editable: true,
       headerName: "E1",
@@ -147,14 +154,14 @@ export const columnsAllegreto = [
       field: "foco1",
       editable: true,
       headerName: "Foco 1",
-      ...slotColumnCommonFields,
+      ...slotDataFields,
       flex: 1,
     },
     {
       field: "foco2",
       editable: true,
       headerName: "Foco2",
-      ...slotColumnCommonFields,
+      ...slotDataFields,
       flex: 1,
     },
     {
@@ -168,7 +175,7 @@ export const columnsAllegreto = [
       field: "main",
       editable: true,
       headerName: "Main",
-      ...slotColumnCommonFields,
+      ...slotDataFields,
       flex: 1,
     },
     {
@@ -182,21 +189,21 @@ export const columnsAllegreto = [
       field: "head",
       editable: true,
       headerName: "Head",
-      ...slotColumnCommonFields,
+      ...slotDataFields,
       flex: 1,
     },
     {
       field: "oc",
       editable: true,
       headerName: "OC",
-      ...slotColumnCommonFields,
+      ...slotDataFields,
       flex: 1,
     },
     {
       field: "hr",
       editable: true,
       headerName: "HR",
-      ...slotColumnCommonFields,
+      ...slotDataFields,
       flex: 1,
     },
     {
@@ -228,20 +235,22 @@ export const columnsVisx = [
       headerClassName: 'super-app-theme--fixed',
       cellClassName: 'super-app-theme--fixed',
       headerName: "Cliente",
-      ...slotColumnCommonFields
+      maxWidth: 100,
+      minWidth: 100,
   },
   { 
       field: "date",
       editable: true,
       headerName: "Data",
-      ...slotColumnCommonFields
+      ...slotDataFields
   },
   {
     field: "days",
     editable: true,
     headerName: "Days",
-    flex: 1,
-    ...slotColumnCommonFields,
+    flex: 1,    
+    minWidth: 50,
+    maxWidth: 50,
     background: "red",
     cellClassName: (params) => {
       if (params.value == null) {
@@ -260,7 +269,7 @@ export const columnsVisx = [
     headerName: "Defeito não resolvido",
     align: "left",
     cellClassName: "name-column--cell",
-    ...slotColumnCommonFields,
+    minWidth: 300,
   },
   {
     field: "arf",
@@ -322,14 +331,14 @@ export const columnsVisx = [
     field: "oc",
     editable: true,
     headerName: "OC",
-    ...slotColumnCommonFields,
+    ...slotDataFields,
     flex: 1,
   },
   {
     field: "hr",
     editable: true,
     headerName: "HR",
-    ...slotColumnCommonFields,
+    ...slotDataFields,
     flex: 1,
   },
   {
@@ -350,7 +359,7 @@ export const columnsVisx = [
     field: "integrator",
     editable: true,
     headerName: "Integrator",
-    ...slotColumnCommonFields,
+    ...slotDataFields,
     flex: 1,
   },
   {
@@ -364,14 +373,14 @@ export const columnsVisx = [
     field: "l2",
     editable: true,
     headerName: "L2",
-    ...slotColumnCommonFields,
+    ...slotDataFields,
     flex: 1,
   },
   {
     field: "l3",
     editable: true,
     headerName: "L3",
-    ...slotColumnCommonFields,
+    ...slotDataFields,
     flex: 1,
   },
   {
@@ -417,20 +426,22 @@ export const columnsConstellation = [
       headerClassName: 'super-app-theme--fixed',
       cellClassName: 'super-app-theme--fixed',
       headerName: "Cliente",
-      ...slotColumnCommonFields
+      maxWidth: 110,
+      minWidth: 110,
   },
   { 
       field: "date",
       editable: true,
       headerName: "Data",
-      ...slotColumnCommonFields
+      ...slotDataFields
   },
   {
     field: "days",
     editable: true,
     headerName: "Days",
-    flex: 1,
-    minWidth: 100,
+    flex: 1,    
+    minWidth: 50,
+    maxWidth: 50,
     background: "red",
     cellClassName: (params) => {
       if (params.value == null) {
@@ -455,21 +466,21 @@ export const columnsConstellation = [
     field: "useHours",
     editable: true,
     headerName: "Horas de uso",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "lampadHours",
     editable: true,
     headerName: "Horas lâmpada",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "tecnic",
     editable: true,
     headerName: "Tecnico",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
@@ -481,27 +492,28 @@ export const columnsConstellation = [
   },
 ];
 
-
 export const columnsIntralaser = [
   { 
       field: "customer_name",
       headerClassName: 'super-app-theme--fixed',
       cellClassName: 'super-app-theme--fixed',
       headerName: "Cliente",
-      ...slotColumnCommonFields
+      maxWidth: 100,
+      minWidth: 100,
   },
   { 
       field: "date",
       editable: true,
       headerName: "Data",
-      ...slotColumnCommonFields
+      ...slotDataFields
   },
   {
     field: "days",
     editable: true,
     headerName: "Days",
-    flex: 1,
-    minWidth: 100,
+    flex: 1,    
+    minWidth: 50,
+    maxWidth: 50,
     background: "red",
     cellClassName: (params) => {
       if (params.value == null) {
@@ -526,42 +538,42 @@ export const columnsIntralaser = [
     field: "energy",
     editable: true,
     headerName: "Energia(mj)",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "osc",
     editable: true,
     headerName: "I Osc (A)",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "amp",
     editable: true,
     headerName: "I Amp (A)",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "powerOsc",
     editable: true,
     headerName: "Power Osc (mW)",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "powerAmp",
     editable: true,
     headerName: "Power Amp (mW)",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "pumpings",
     editable: true,
     headerName: "Pumping (ms)",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
@@ -585,21 +597,23 @@ export const columnsLaserSigth= [
       field: "customer_name",
       headerClassName: 'super-app-theme--fixed',
       cellClassName: 'super-app-theme--fixed',
-      headerName: "Cliente",
-      ...slotColumnCommonFields
+      headerName: "Cliente",      
+      minWidth: 100,
+      maxWidth: 100,
   },
   { 
       field: "date",
       editable: true,
       headerName: "Data",
-      ...slotColumnCommonFields
+      ...slotDataFields
   },
   {
     field: "days",
     editable: true,
     headerName: "Days",
     flex: 1,
-    minWidth: 100,
+    minWidth: 50,
+    maxWidth: 50,
     background: "red",
     cellClassName: (params) => {
       if (params.value == null) {
@@ -623,54 +637,54 @@ export const columnsLaserSigth= [
   {
     field: "arf",
     editable: true,
-    minWidth: 150,
+    ...slotColumnCommonFields,
     headerName: "Arf",
     flex: 1,
   },
   {
     field: "arfChange",
     editable: true,
-    minWidth: 150,
+    ...slotColumnCommonFields,
     headerName: "Troca Arf",
     flex: 1,
   },
   {
     field: "he",
     editable: true,
-    minWidth: 150,
+    ...slotColumnCommonFields,
     headerName: "He",
     flex: 1,
   },
   {
     field: "energy",
     editable: true,
-    minWidth: 130,
+    ...slotColumnCommonFields,
     headerName: "Energia",
     flex: 1,
   },
   {
-    minWidth: 130,
+    ...slotColumnCommonFields,
     field: "cavity",
     editable: true,
     headerName: "Cavidade",
     flex: 1,
   },
   {
-    minWidth: 150,
     field: "oc",
     editable: true,
     headerName: "OC",
     flex: 1,
+    ...slotColumnCommonFields,
   },
   {
-    minWidth: 150,
+    ...slotColumnCommonFields,
     field: "hr",
     editable: true,
     headerName: "HR",
     flex: 1,
   },
   {
-    minWidth: 150,
+    ...slotColumnCommonFields,
     field: "aten",
     editable: true,
     headerName: "Aten",
@@ -680,35 +694,35 @@ export const columnsLaserSigth= [
     field: "bs",
     editable: true,
     headerName: "BS",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "focus",
     editable: true,
     headerName: "Foco",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "galvos",
     editable: true,
     headerName: "Galvos",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "mirrow45",
     editable: true,
     headerName: "45",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
     field: "eletronics",
     editable: true,
     headerName: "Eletrônica",
-    minWidth: 150,
+    ...slotColumnCommonFields,
     flex: 1,
   },
   {
