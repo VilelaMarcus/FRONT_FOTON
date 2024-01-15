@@ -18,7 +18,7 @@ import {  useReadCustomerVisitMeasurementByCustomerIdQuery, actions } from "./cu
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { columnsAllegreto, columnsConstellation, columnsVisx, columnsIntralaser, columnsLaserSigth } from '../../data/mockColums.js';
-import { useCreateVisitMeasurementMutation, useDeleteVisitMeasurementMutation } from "../lasers/custumerVisitMeasurementSlicer.js";
+import { useCreateVisitMeasurementMutation, useDeleteVisitMeasurementMutation, useUpdateVisitMeasurementMutation } from "../lasers/custumerVisitMeasurementSlicer.js";
 import { useReadEquipmentsQuery } from "../dashboard/dashboardSlice.js";
 import MenuContext from "./MenuContext/index.jsx";
 import { Delete } from "@mui/icons-material";
@@ -59,20 +59,25 @@ const MetamorfTable = ({customer}) => {
   const [columns, setColumns] =  useState([]);
   const [rows, setRows] = useState([]);
   const [selectId, setId] = useState([]);
-  console.log({selectId});  
-
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
   const [createNewRecordOfVisit] = useCreateVisitMeasurementMutation();
+  
+  const dispatch = useDispatch(); 
+  const [updateVisitMeasurement] = useUpdateVisitMeasurementMutation();
   const [deleteRecordOfVisit, { isSuccess }] = useDeleteVisitMeasurementMutation();  
   const [showAlert, setShowAlert] = useState(false);
+  const [showDateAlert, setShowDateAlert] = useState(false);
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { data, isLoading } = useReadCustomerVisitMeasurementByCustomerIdQuery(customer.id);    
+  const { x, isLoading } = useReadCustomerVisitMeasurementByCustomerIdQuery(customer.id);    
   const lasers = useSelector((state) => state.dashboard.Lasers);
   
   const laserName = lasers?.find(laser => laser.id === customer.laser_id)?.laser_name;
+  
+  const data = useSelector(state => state.customers.customerVisit);
 
+  let payload= {};
   useEffect(() => {
       if (data && data.length >= 1) {
         setRows(Object.values(data))
@@ -179,6 +184,41 @@ const MetamorfTable = ({customer}) => {
     setId(itm);   
   }
 
+  const handleCellChange = (params, e) => {
+    
+    console.log('passou');
+    console.log(params.id);
+    let fieldChanged = params.field;
+    if(fieldChanged === "date"){     
+
+      const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+      const isDateFormated = dateRegex.test(params.value)
+      if(isDateFormated){
+        payload = {
+          name: laserName,
+          id: params.id
+        };
+          payload[fieldChanged] = params.value;
+          updateVisitMeasurement(payload);
+          dispatch(actions.updateList(payload)) 
+      } else{
+        setShowDateAlert(true);
+      }  
+      
+      
+    } else {
+      payload = {
+        name: laserName,
+        id: params.id,
+      };
+
+        payload[fieldChanged] = params.value;
+        updateVisitMeasurement(payload);
+        dispatch(actions.updateList(payload))
+    }
+  }
+
+
     return(
       <Box
         m="40px 0 0 0"
@@ -235,6 +275,12 @@ const MetamorfTable = ({customer}) => {
             Visita deletada com sucesso
           </div>
         )}
+        
+      {showDateAlert && (
+          <div style={styleWarning}> 
+            Favor coloque a data no formato DD/MM/YYYY
+          </div>
+      )}
         <ClipLoader
             loading={isLoading}
             color="white"
@@ -248,7 +294,8 @@ const MetamorfTable = ({customer}) => {
             rows={rowsToDisplay}
             columns={columns}
             components={{ Toolbar: EditToolbar }}
-            checkboxSelection            
+            checkboxSelection   
+            onCellEditCommit={handleCellChange}         
             onSelectionModelChange={itm => handleSelection(itm)}
             disableRowSelectionOnClick
           />

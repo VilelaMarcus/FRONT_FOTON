@@ -175,7 +175,7 @@ const Sidebar = () => {
               }}
             >
                <Menu>
-                <SubMenu icon={<RemoveRedEyeOutlinedIcon />} title="Modelos">
+                <SubMenu icon={<RemoveRedEyeOutlinedIcon />} title="Tabelas">
                   <Item
                     title="Allegretto"
                     to="/allegretto"
