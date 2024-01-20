@@ -189,7 +189,7 @@ const Dashboard = () => {
               </Box>
               <Box color={colors.grey[100]}>{visit.date}</Box>
               <Box
-                backgroundColor={visit?.unresolvedDefect.length > 0 ? colors.redAccent[500] : colors.greenAccent[500]}
+                backgroundColor={visit?.unresolvedDefect?.length > 0 ? colors.redAccent[500] : colors.greenAccent[500]}
                 p="5px 10px"
                 borderRadius="4px"
               >
