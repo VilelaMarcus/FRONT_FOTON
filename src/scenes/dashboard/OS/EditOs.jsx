@@ -3,7 +3,7 @@ import { tokens } from "../../../theme";
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem'; 
-import { TextField, Typography, Box, Paper, IconButton, Button, useTheme } from '@mui/material';
+import { TextField, Typography, Box, Paper, IconButton, Checkbox, Button, useTheme } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
@@ -22,8 +22,10 @@ const EditOS = () => {
   const [onDeleteOS] = useDeleteOsMutation();
 
   const [editingOSId, setEditingOSId] = useState(null);
+  const [pdfAppears, setPdfAppears] = useState(false);
   const [editedType, setEditedType] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
+
 
   useReadOsByLaserIdQuery(equipmentId);
   const osList = useSelector((state) => state.os.osList);
@@ -33,10 +35,11 @@ const EditOS = () => {
   console.log({osList});
   console.log({editingOSId});
 
-  const handleEditClick = (osId, description, type) => {
+  const handleEditClick = (osId, description, type, pdfAppears) => {
     setEditingOSId(osId);
     setEditedDescription(description);
     setEditedType(type);
+    setPdfAppears(pdfAppears);
   };
 
   const handleDeleteClick = (osId) => {
@@ -64,11 +67,12 @@ const EditOS = () => {
 
   const handleSaveClick = () => {    
     if (editingOSId !== null) {
-      console.log("handleSaveClick");
       onUpdateOS({ id: editingOSId, body: {
         description: editedDescription,
+        type: editedType,
+        pdf: pdfAppears
       }});
-      dispatch(actions.updateOsListDescription({ id: editingOSId, description: editedDescription }));
+      dispatch(actions.updateOsListDescription({ id: editingOSId, description: editedDescription, type: editedType, pdf: pdfAppears}));
       setEditedDescription('');     
       setEditingOSId(null);
     }
@@ -103,7 +107,7 @@ const EditOS = () => {
             style={{ padding: 16, margin: 16, background: '#748CAB' }}
           >
             {editingOSId === os.id ? (
-              <Box display="flex" flexDirection="column" alignItems="flex-end">
+              <Box display="flex" flexDirection="column">
                 <TextField
                   label="Descrição"
                   value={editedDescription}
@@ -124,8 +128,18 @@ const EditOS = () => {
                   <MenuItem value="Text">Text</MenuItem>
                   <MenuItem value="ChekBox">Checkbox</MenuItem>
                 </TextField>
-                <Box mt={2}>
-                <Button
+                <Box mt={2} sx={{ display: 'flex', justifyContent:"space-between"}}> 
+                <Box  sx={{ display: 'flex', alignItems: 'center'}}>
+                <Checkbox
+                    checked={pdfAppears} // You can set the initial checked state as needed
+                    onChange={() => setPdfAppears(!pdfAppears)} // You need to handle the change event if you want to update its state
+                  />
+                  <Typography variant="body1" style={{ marginRight: '16px' }}>
+                    Aparecer na impressão
+                  </Typography>
+                </Box>
+                <Box>
+                  <Button
                     className="edit-button"
                     variant="contained"
                     color="primary"
@@ -144,6 +158,7 @@ const EditOS = () => {
                   >
                     Salvar
                   </Button>
+                </Box>  
                 </Box>
               </Box>
             ) : (
@@ -155,7 +170,7 @@ const EditOS = () => {
                   <IconButton
                     className="edit-button"
                     color="primary"
-                    onClick={() => handleEditClick(os.id, os.description)}
+                    onClick={() => handleEditClick(os.id, os.description, os.type, os.pdf)}
                   >
                     <EditIcon />
                   </IconButton>

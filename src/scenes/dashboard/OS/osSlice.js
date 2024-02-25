@@ -59,11 +59,10 @@ export const { reducer, actions } = createSlice({
       state.osList = state.osList.filter(os => os.id !== payload);
     },
     updateOsListDescription: (state, { payload }) => {
-      
       const keys = Object.keys(payload);
       state.osList = state.osList.map(e => {
         if(e.id === payload.id) {
-          const obj = { ...e, [keys[1]]: payload[keys[1]]}         
+          const obj = { ...e, [keys[1]]: payload[keys[1]], [keys[2]]: payload[keys[2]], [keys[3]]: payload[keys[3]]}; 
           return obj;
         }
         else {
