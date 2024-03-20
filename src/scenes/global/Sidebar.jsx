@@ -14,7 +14,7 @@ import Filter3OutlinedIcon from '@mui/icons-material/Filter3Outlined';
 import Filter4OutlinedIcon from '@mui/icons-material/Filter4Outlined';
 import Filter5OutlinedIcon from '@mui/icons-material/Filter5Outlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
+import TableRowsIcon from '@mui/icons-material/TableRows';
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -152,9 +152,16 @@ const Sidebar = () => {
             <Item
               title="Equipamentos"
               to="/aparelho"
-              icon={<HandymanIcon />}
+              icon={<RemoveRedEyeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+            />
+            <Item
+            title="Pecas"
+            to="/pecas"
+            icon={<HandymanIcon />}
+            selected={selected}
+            setSelected={setSelected}
             />
 
             <Typography
@@ -175,7 +182,7 @@ const Sidebar = () => {
               }}
             >
                <Menu>
-                <SubMenu icon={<RemoveRedEyeOutlinedIcon />} title="Tabelas">
+                <SubMenu icon={<TableRowsIcon />} title="Tabelas">
                   <Item
                     title="Allegretto"
                     to="/allegretto"

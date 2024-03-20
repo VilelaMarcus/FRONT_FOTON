@@ -7,10 +7,11 @@ export const apiSlice = createApi({
     'Laser',
     'Custumer',
     'CustumerVisitMesurement',
+    'pecas',
   ],
   baseQuery: fetchBaseQuery({
     mode: 'cors',
-    baseUrl: process.env.REACT_APP_API_URL, // Remove extra quotes here
+    baseUrl: process.env.REACT_APP_API_URL, 
   }),
   endpoints: (build) => ({
     readUser: build.query({ query: () => '' }),

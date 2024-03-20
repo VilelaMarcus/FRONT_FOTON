@@ -26,6 +26,7 @@ import Custumer from "./scenes/customers";
 import Owners from "./scenes/onwers";
 import EditOS from "./scenes/dashboard/OS/EditOs";
 import Equipments from "./scenes/equipamentos";
+import Pecas from "./scenes/pecas";
 // import Calendar from "./scenes/calendar/calendar";
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
                 <Route path="/customer" element={<Owners />} />
                 <Route path="/visitas" element={<Custumer />} />
                 <Route path="/aparelho" element={<Equipments />} />
+                <Route path="/pecas" element={<Pecas />} />
                 <Route path="/edit-os/:equipmentId" element={<EditOS />} />
               </Routes>
             </main>

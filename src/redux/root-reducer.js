@@ -24,6 +24,10 @@ import {
   reducer as visitCustumerMeasurementReducer,
   slice as visitCustumerMeasurementSlice,
 } from '../scenes/lasers/custumerVisitMeasurementSlicer';
+import {
+  reducer as pecasReducer,
+  slice as pecasSlice,
+} from '../scenes/pecas/pecasSlice';
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
@@ -32,6 +36,7 @@ const rootReducer = combineReducers({
     [ownerSlice]: ownerReducer,
     [visitCustumerMeasurementSlice]: visitCustumerMeasurementReducer,
     [dashboardSlicer]: dashboardReducer,
+    [pecasSlice]: pecasReducer,
 });
 
 const rootState = rootReducer(undefined, { type: '' });
