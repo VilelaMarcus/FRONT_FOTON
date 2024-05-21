@@ -1,25 +1,46 @@
-import React, { useState,  } from 'react';
-import { Modal, Box, Button, TextField, useTheme } from '@mui/material';
+import React, { useEffect, useState,  } from 'react';
+import { Modal, Box, Button, TextField, useTheme, Select } from '@mui/material';
 import { tokens } from "../../../theme";
-import { useCreateEquipmentMutation, actions } from "../../dashboard/dashboardSlice";
 import { v4 as uuidv4 } from 'uuid';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useCreatePecasMutation, actions } from '../pecasSlice';
 
 const AddCustomerModal = ({ open, onClose }) => {
-  const [createNewEquipment] = useCreateEquipmentMutation()
+  const [createNewEquipment] = useCreatePecasMutation()
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  // const Lasers = useSelector((state) => state.dashboard.Lasers);
   const dispatch = useDispatch();
+
+  // const [options, setOptions] = useState({});
+
+  // useEffect(() => {
+  //   const opts = Lasers.map((e) => {
+  //     const obj ={ 
+  //       value : e.name,
+  //       label: e.name,
+  //       id: e.id,
+  //      }
+  //     return obj
+      
+  //   })
+  //   setOptions(opts)
+  // },
+  // [Lasers])
+
   const [formData, setFormData] = useState({
     laser_name: '',
     preco: '',
+    // laser_id: '',
   });
 
+  
   const [validationError, setValidationError] = useState({
     laser_name: '',
     preco: '',
+    // laser_id: '',
   });
 
   const handleInputChange = (e) => {
@@ -32,7 +53,8 @@ const AddCustomerModal = ({ open, onClose }) => {
   const handleCLose = () => {
     setFormData({
       laser_name: '',
-      preco: '',
+      preco: '',        
+      // laser_id: '',
     });
 
     
@@ -60,14 +82,15 @@ const AddCustomerModal = ({ open, onClose }) => {
       return;
     }
 
-    console.log('aqui1')
+    console.log('Aqui 123, antes de criar o payload')
 
     // If all validations pass, proceed with saving
     const id = uuidv4();
     const payload = {
       id: id,
-      laser_name: formData.laser_name,
+      name: formData.laser_name,
       preco: formData.preco,
+      // laser_id: formData.laser_id,
     }   
     
     createNewEquipment(payload);
@@ -75,6 +98,11 @@ const AddCustomerModal = ({ open, onClose }) => {
 
     onClose();
   };
+
+  const handleSelect = (e) => {
+    const { value } = e;
+    value && setFormData({ ...formData, laser_id: value.id });
+  }
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -115,6 +143,14 @@ const AddCustomerModal = ({ open, onClose }) => {
           }}
           margin="normal"
         />
+        {/* <Select
+          options={options}
+          label="Equipamento"
+          noOptionsMessage={() => "...carregando"}
+          placeholder="Laser"
+          onChange={handleSelect}
+        />  */}
+
         <Button onClick={handleSave} variant="outlined" color="secondary" sx={{ mt: 2, height: '40px' }}>
           Save
         </Button>

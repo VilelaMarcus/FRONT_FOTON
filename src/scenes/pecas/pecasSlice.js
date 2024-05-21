@@ -48,6 +48,7 @@ export const { reducer, actions } = createSlice({
   initialState,
   reducers: {
     addEquipment: (state, { payload }) => {
+      console.log({payload})
       state.Pecas.push(payload);
     },
     updatePeca: (state, { payload }) => {
