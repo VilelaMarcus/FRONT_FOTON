@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { tokens } from "../../../theme";
+import { tokens } from "../../../theme.js";
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,33 +8,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useReadOsByLaserIdQuery, useAddNewOsMutation, useDeleteOsMutation, useEditOsMutation, actions, useReadOrderOsQuery, useUpdateOrderOsMutation } from './osSlice';
+import { useReadOsByLaserIdQuery, useAddNewOsMutation, useDeleteOsMutation, useEditOsMutation, actions, useReadOrderOsQuery, useUpdateOrderOsMutation } from './osSlice.js';
 import { v4 as uuidv4 } from 'uuid';
-import DnDContext from './DnDContext.js';
-import { useDrag, useDrop } from 'react-dnd';
-import { id } from 'date-fns/locale';
-import { set } from 'date-fns';
+import { Reorder } from 'framer-motion';
 
-const ItemType = 'OS_ITEM';
-
-const DraggableItem = ({ os, index, moveItem, handleEditClick, handleDeleteClick, saveEdit, cancelEdit, editingOSId, editedDescription, setEditedDescription, editedType, setEditedType, pdfAppears, setPdfAppears }) => {
-  const [, ref] = useDrag({
-    type: ItemType,
-    item: { index }
-  });
-
-  const [, drop] = useDrop({
-    accept: ItemType,
-    hover: (draggedItem) => {
-      if (draggedItem.index !== index) {
-        moveItem(draggedItem.index, index);
-        draggedItem.index = index;
-      }
-    }
-  });
+const DraggableItem = ({ os, handleEditClick, handleDeleteClick, saveEdit, cancelEdit, editingOSId, editedDescription, setEditedDescription, editedType, setEditedType, pdfAppears, setPdfAppears }) => {
 
   return (
-    <div ref={(node) => ref(drop(node))}>
       <Paper
         key={os.id}
         elevation={3}
@@ -115,7 +95,6 @@ const DraggableItem = ({ os, index, moveItem, handleEditClick, handleDeleteClick
           </Box>
         )}
       </Paper>
-    </div>
   );
 };
 
@@ -166,7 +145,10 @@ const EditOS = () => {
     }
   }, [orderOs, osList]);
   
-  
+  useEffect(() => {
+    const orderArray = osToShow.map(os => os.id);
+    setCurrentOrder(orderArray);
+  }, [osToShow]);
 
   const handleEditClick = (osId, description, type, pdfAppears) => {
     setEditingOSId(osId);
@@ -229,9 +211,6 @@ const EditOS = () => {
     setCurrentOrder(newOrder);
   };
 
-  console.log('currentOrder', currentOrder);
-  console.log('originalOrder', originalOrder);
-
   const saveNewOrder = () => {
     const orderPayload = {
       id: orderOs.id,
@@ -245,7 +224,7 @@ const EditOS = () => {
   };
 
   return (
-    <DnDContext>
+    <>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h4" gutterBottom>
           Editando OS do equipamento {LaserName?.laser_name}
@@ -280,26 +259,30 @@ const EditOS = () => {
           )}
         </Box>
       </Box>
-      {osToShow && osToShow.map((os, index) => (
-        <DraggableItem
-          key={os.id}
-          os={os}
-          index={index}
-          moveItem={moveItem}
-          handleEditClick={handleEditClick}
-          handleDeleteClick={handleDeleteClick}
-          saveEdit={handleSaveClick}
-          cancelEdit={handleCancelClick}
-          editingOSId={editingOSId}
-          editedDescription={editedDescription}
-          setEditedDescription={setEditedDescription}
-          editedType={editedType}
-          setEditedType={setEditedType}
-          pdfAppears={pdfAppears}
-          setPdfAppears={setPdfAppears}
-        />
-      ))}
-    </DnDContext>
+      <Reorder.Group values={osToShow} onReorder={setOsToShow}>
+        {osToShow && osToShow.map((os, index) => (
+          <Reorder.Item value={os} key={os.id}>
+            <DraggableItem
+              key={os.id}
+              os={os}
+              index={index}
+              moveItem={moveItem}
+              handleEditClick={handleEditClick}
+              handleDeleteClick={handleDeleteClick}
+              saveEdit={handleSaveClick}
+              cancelEdit={handleCancelClick}
+              editingOSId={editingOSId}
+              editedDescription={editedDescription}
+              setEditedDescription={setEditedDescription}
+              editedType={editedType}
+              setEditedType={setEditedType}
+              pdfAppears={pdfAppears}
+              setPdfAppears={setPdfAppears}
+            />
+          </Reorder.Item>
+        ))}        
+      </Reorder.Group>
+    </>
   );
 };
 
