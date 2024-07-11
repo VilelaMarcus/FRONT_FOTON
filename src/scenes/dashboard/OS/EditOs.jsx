@@ -127,7 +127,7 @@ const EditOS = () => {
 
   useEffect(() => {
     if (orderOs !== null && osList !== undefined && osList.length > 0) {
-      const initialOrder = orderOs.sequence_itens;
+      const initialOrder = orderOs.sequence_itens ? orderOs.sequence_itens : [];
       setOriginalOrder(initialOrder);      
       setCurrentOrder(initialOrder);
   
